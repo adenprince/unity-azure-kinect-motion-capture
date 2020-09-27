@@ -9,6 +9,8 @@ public class TrackerHandler : MonoBehaviour
     public Quaternion[] absoluteJointRotations = new Quaternion[(int)JointId.Count];
     public bool drawSkeletons = true;
     Quaternion Y_180_FLIP = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
+    public GameObject pointBody;
+    int numBodies = 0;
 
     // Start is called before the first frame update
     void Awake()
@@ -103,14 +105,29 @@ public class TrackerHandler : MonoBehaviour
 
     public void updateTracker(BackgroundData trackerFrameData)
     {
-        //this is an array in case you want to get the n closest bodies
-        int closestBody = findClosestTrackedBody(trackerFrameData);
+        // Make the number of point bodies match the number of detected bodies
+        while (numBodies != (int)trackerFrameData.NumOfBodies)
+        {
+            if (numBodies < (int)trackerFrameData.NumOfBodies)
+            {
+                Instantiate(pointBody, gameObject.transform);
+                ++numBodies;
+            }
+            else
+            {
+                Destroy(gameObject.transform.GetChild(numBodies - 1).gameObject);
+                --numBodies;
+            }
+        }
 
-        // render the closest body
-        Body skeleton = trackerFrameData.Bodies[closestBody];
-        renderSkeleton(skeleton, 0);
+        // Render and collect data for each body
+        for (int i = 0; i < (int)trackerFrameData.NumOfBodies; ++i)
+        {
+            Body skeleton = trackerFrameData.Bodies[i];
+            renderSkeleton(skeleton, i);
 
-        gameObject.GetComponent<DataRecorder>().collectData(skeleton, 0);
+            gameObject.GetComponent<DataRecorder>().collectData(skeleton);
+        }
     }
 
     int findIndexFromId(BackgroundData frameData, int id)

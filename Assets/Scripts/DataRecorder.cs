@@ -25,14 +25,14 @@ public class DataRecorder : MonoBehaviour
         return angleRad * 180 / Mathf.PI;
     }
 
-    public void collectData(Body skeleton, int skeletonNumber)
+    public void collectData(Body skeleton)
     {
         float leftElbowAngle = getJointAngle(skeleton.JointPositions3D, (int)JointId.ElbowLeft);
         float rightElbowAngle = getJointAngle(skeleton.JointPositions3D, (int)JointId.ElbowRight);
         float leftKneeAngle = getJointAngle(skeleton.JointPositions3D, (int)JointId.KneeLeft);
         float rightKneeAngle = getJointAngle(skeleton.JointPositions3D, (int)JointId.KneeRight);
 
-        File.AppendAllText(outputPath, Time.time + "," + skeletonNumber + "," + leftElbowAngle + "," +
+        File.AppendAllText(outputPath, Time.time + "," + skeleton.Id + "," + leftElbowAngle + "," +
                                        rightElbowAngle + "," + leftKneeAngle + "," + rightKneeAngle + "\n");
     }
 

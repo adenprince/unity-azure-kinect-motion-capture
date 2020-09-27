@@ -25,10 +25,7 @@ public class main : MonoBehaviour
         {
             if (m_backgroundDataProvider.GetCurrentFrameData(ref m_lastFrameData))
             {
-                if (m_lastFrameData.NumOfBodies != 0)
-                {
-                    m_tracker.GetComponent<TrackerHandler>().updateTracker(m_lastFrameData);
-                }
+                m_tracker.GetComponent<TrackerHandler>().updateTracker(m_lastFrameData);
             }
         }
     }
