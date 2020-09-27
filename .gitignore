@@ -6,5 +6,6 @@ Packages
 Temp
 Assets/Plugins
 *.csv
+*.csv.meta
 *.dll
 *.onnx
