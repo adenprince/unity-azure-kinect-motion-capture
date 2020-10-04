@@ -15,6 +15,17 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
 
     public Stream RawDataLoggingFile = null;
 
+    FPS frameRate;
+    DepthMode depthMode;
+    WiredSyncMode wiredSyncMode;
+
+    public SkeletalTrackingProvider(FPS frameRate, DepthMode depthMode, WiredSyncMode wiredSyncMode)
+    {
+        this.frameRate = frameRate;
+        this.depthMode = depthMode;
+        this.wiredSyncMode = wiredSyncMode;
+    }
+
     protected override void RunBackgroundThreadAsync(int id)
     {
         try
@@ -28,10 +39,10 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
             {
                 device.StartCameras(new DeviceConfiguration()
                 {
-                    CameraFPS = FPS.FPS30,
+                    CameraFPS = frameRate,
                     ColorResolution = ColorResolution.Off,
-                    DepthMode = DepthMode.NFOV_Unbinned,
-                    WiredSyncMode = WiredSyncMode.Standalone,
+                    DepthMode = depthMode,
+                    WiredSyncMode = wiredSyncMode,
                 });
 
                 UnityEngine.Debug.Log("Open K4A device successful. id " + id + "sn:" + device.SerialNum );

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Microsoft.Azure.Kinect.BodyTracking;
+using Microsoft.Azure.Kinect.Sensor;
 
 public class main : MonoBehaviour
 {
@@ -9,9 +10,13 @@ public class main : MonoBehaviour
     private BackgroundDataProvider m_backgroundDataProvider;
     public BackgroundData m_lastFrameData = new BackgroundData();
 
+    public FPS frameRate = FPS.FPS30;
+    public DepthMode depthMode = DepthMode.NFOV_Unbinned;
+    public WiredSyncMode wiredSyncMode = WiredSyncMode.Standalone;
+
     void Start()
     {
-        SkeletalTrackingProvider m_skeletalTrackingProvider = new SkeletalTrackingProvider();
+        SkeletalTrackingProvider m_skeletalTrackingProvider = new SkeletalTrackingProvider(frameRate, depthMode, wiredSyncMode);
 
         //tracker ids needed for when there are two trackers
         const int TRACKER_ID = 0;
@@ -37,5 +42,21 @@ public class main : MonoBehaviour
         {
             m_backgroundDataProvider.StopClientThread();
         }
+    }
+
+    public void SetFPS(int frameRate)
+    {
+        this.frameRate = (FPS)frameRate;
+    }
+
+    public void SetDepthMode(int depthMode)
+    {
+        // Add 1 because DepthMode 0 is no depth capture
+        this.depthMode = (DepthMode)depthMode + 1;
+    }
+
+    public void SetWiredSyncMode(int wiredSyncMode)
+    {
+        this.wiredSyncMode = (WiredSyncMode)wiredSyncMode;
     }
 }
