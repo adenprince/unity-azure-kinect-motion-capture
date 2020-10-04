@@ -68,6 +68,7 @@
     <Compile Include="Assets\Scripts\BackgroundData.cs" />
     <Compile Include="Assets\Scripts\BackgroundDataProvider.cs" />
     <Compile Include="Assets\Scripts\Body.cs" />
+    <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
     <Compile Include="Assets\Scripts\CustomColors.cs" />
     <Compile Include="Assets\Scripts\DataRecorder.cs" />
