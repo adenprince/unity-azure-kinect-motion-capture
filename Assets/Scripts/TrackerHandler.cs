@@ -120,6 +120,9 @@ public class TrackerHandler : MonoBehaviour
             }
         }
 
+        // Reset data GUI text
+        gameObject.GetComponent<DataRecorder>().resetDisplayedData();
+
         // Render and collect data for each body
         for (int i = 0; i < (int)trackerFrameData.NumOfBodies; ++i)
         {

@@ -1,13 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.IO;
 using Microsoft.Azure.Kinect.BodyTracking;
 
 public class DataRecorder : MonoBehaviour
 {
+    public Text dataText;
+
     string outputPath;
     string fileName;
+    string displayedData;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +39,21 @@ public class DataRecorder : MonoBehaviour
 
         File.AppendAllText(outputPath, Time.time + "," + skeleton.Id + "," + leftElbowAngle + "," +
                                        rightElbowAngle + "," + leftKneeAngle + "," + rightKneeAngle + "\n");
+
+        displayedData += " Body " + skeleton.Id + ":\n" +
+                         "  Left Elbow: " + leftElbowAngle.ToString("F0") + "°\n" +
+                         "  Right Elbow: " + rightElbowAngle.ToString("F0") + "°\n" +
+                         "  Left Knee: " + leftKneeAngle.ToString("F0") + "°\n" +
+                         "  Right Knee: " + rightKneeAngle.ToString("F0") + "°\n";
+
+        dataText.text = displayedData;
+    }
+
+    public void resetDisplayedData()
+    {
+        this.displayedData = "Time: " + (int)Time.time + "\nBody Data\n";
+
+        dataText.text = displayedData;
     }
 
     public string getFileName()
