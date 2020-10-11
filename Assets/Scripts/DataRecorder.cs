@@ -7,19 +7,12 @@ using Microsoft.Azure.Kinect.BodyTracking;
 public class DataRecorder : MonoBehaviour
 {
     string outputPath;
-    int fileNameIndex = 1;
+    string fileName;
 
     // Start is called before the first frame update
     void Start()
     {
-        outputPath = Application.dataPath + "/output" + fileNameIndex + ".csv";
-
-        while (System.IO.File.Exists(outputPath))
-        {
-            ++fileNameIndex;
-            outputPath = Application.dataPath + "/output" + fileNameIndex + ".csv";
-        }
-
+        outputPath = Application.dataPath + "/" + fileName;
         File.WriteAllText(outputPath, "Time,ID,Left Elbow Angle,Right Elbow Angle,Left Knee Angle,Right Knee Angle\n");
     }
 
@@ -44,4 +37,26 @@ public class DataRecorder : MonoBehaviour
                                        rightElbowAngle + "," + leftKneeAngle + "," + rightKneeAngle + "\n");
     }
 
+    public string getFileName()
+    {
+        return fileName;
+    }
+
+    public void setDefaultFileName()
+    {
+        int fileNameIndex = 1;
+
+        fileName = "output" + fileNameIndex + ".csv";
+
+        while (System.IO.File.Exists(Application.dataPath + "/" + fileName))
+        {
+            ++fileNameIndex;
+            fileName = "output" + fileNameIndex + ".csv";
+        }
+    }
+
+    public void setFileName(string fileName)
+    {
+        this.fileName = fileName;
+    }
 }

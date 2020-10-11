@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\CustomColors.cs" />
     <Compile Include="Assets\Scripts\DataRecorder.cs" />
     <Compile Include="Assets\Scripts\main.cs" />
+    <Compile Include="Assets\Scripts\OutputFileNameInput.cs" />
     <Compile Include="Assets\Scripts\PuppetAvatar.cs" />
     <Compile Include="Assets\Scripts\SkeletalTrackingProvider.cs" />
     <Compile Include="Assets\Scripts\TrackerHandler.cs" />
