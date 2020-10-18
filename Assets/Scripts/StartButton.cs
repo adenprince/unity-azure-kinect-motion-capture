@@ -7,6 +7,9 @@ public class StartButton : MonoBehaviour
 {
     public Text errorText;
     public Text outputFileName;
+    public Toggle emptyBackgroundToggle;
+    public GameObject plane;
+    public GameObject emptyBackground;
     public GameObject[] disableOnClick;
     public GameObject[] enableOnClick;
 
@@ -16,6 +19,12 @@ public class StartButton : MonoBehaviour
     {
         if (!checkForErrors())
         {
+            if (emptyBackgroundToggle.isOn)
+            {
+                plane.SetActive(false);
+                emptyBackground.SetActive(true);
+            }
+
             disableGameObjects();
             enableGameObjects();
         }

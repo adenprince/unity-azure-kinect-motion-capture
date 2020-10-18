@@ -2,6 +2,7 @@
 using UnityEngine;
 using Microsoft.Azure.Kinect.BodyTracking;
 using System;
+using TMPro;
 
 public class TrackerHandler : MonoBehaviour
 {
@@ -214,6 +215,9 @@ public class TrackerHandler : MonoBehaviour
                 transform.GetChild(skeletonNumber).GetChild(jointNum).GetChild(boneChildNum).gameObject.SetActive(false);
             }
         }
+
+        // Set skeleton ID text to skeleton ID
+        transform.GetChild(skeletonNumber).GetChild((int)JointId.Count).GetComponent<TextMeshPro>().text = skeleton.Id.ToString();
     }
 
     public Quaternion GetRelativeJointRotation(JointId jointId)
