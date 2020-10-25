@@ -137,7 +137,7 @@ public class TrackerHandler : MonoBehaviour
             Body skeleton = sortedBodies[i];
             renderSkeleton(skeleton, i);
 
-            gameObject.GetComponent<DataRecorder>().collectData(skeleton);
+            gameObject.GetComponent<DataRecorder>().collectData(skeleton, i);
         }
     }
 

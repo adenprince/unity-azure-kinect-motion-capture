@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
 using Microsoft.Azure.Kinect.BodyTracking;
+using System;
+using TMPro;
 
 public class DataRecorder : MonoBehaviour
 {
@@ -30,7 +32,7 @@ public class DataRecorder : MonoBehaviour
         return angleRad * 180 / Mathf.PI;
     }
 
-    public void collectData(Body skeleton)
+    public void collectData(Body skeleton, int skeletonNumber)
     {
         float leftElbowAngle = getJointAngle(skeleton.JointPositions3D, (int)JointId.ElbowLeft);
         float rightElbowAngle = getJointAngle(skeleton.JointPositions3D, (int)JointId.ElbowRight);
@@ -40,18 +42,21 @@ public class DataRecorder : MonoBehaviour
         File.AppendAllText(outputPath, Time.time + "," + skeleton.Id + "," + leftElbowAngle + "," +
                                        rightElbowAngle + "," + leftKneeAngle + "," + rightKneeAngle + "\n");
 
-        displayedData += " Body " + skeleton.Id + ":\n" +
-                         "  Left Elbow: " + leftElbowAngle.ToString("F0") + "°\n" +
-                         "  Right Elbow: " + rightElbowAngle.ToString("F0") + "°\n" +
-                         "  Left Knee: " + leftKneeAngle.ToString("F0") + "°\n" +
-                         "  Right Knee: " + rightKneeAngle.ToString("F0") + "°\n";
+        Action<int, float> setAngleText = delegate(int Id, float angle)
+        {
+            transform.GetChild(skeletonNumber).GetChild(Id).GetChild(1)
+                     .GetComponent<TextMeshPro>().text = angle.ToString("F0") + "°";
+        };
 
-        dataText.text = displayedData;
+        setAngleText((int)JointId.ElbowLeft, leftElbowAngle);
+        setAngleText((int)JointId.ElbowRight, rightElbowAngle);
+        setAngleText((int)JointId.KneeLeft, leftKneeAngle);
+        setAngleText((int)JointId.KneeRight, rightKneeAngle);
     }
 
     public void resetDisplayedData()
     {
-        this.displayedData = "Time: " + (int)Time.time + "\nBody Data\n";
+        this.displayedData = "Time: " + (int)Time.time;
 
         dataText.text = displayedData;
     }

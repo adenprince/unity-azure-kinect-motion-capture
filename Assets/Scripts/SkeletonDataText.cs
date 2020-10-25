@@ -5,6 +5,7 @@ using UnityEngine;
 public class SkeletonDataText : MonoBehaviour
 {
     public GameObject targetJoint;
+    public float yOffset;
 
     // Update is called once per frame
     void Update()
@@ -14,7 +15,7 @@ public class SkeletonDataText : MonoBehaviour
 
         // Set position to above the target joint
         Vector3 targetJointPos = targetJoint.transform.position;
-        targetJointPos.y += 0.25f;
+        targetJointPos.y += yOffset;
         transform.position = targetJointPos;
     }
 }
