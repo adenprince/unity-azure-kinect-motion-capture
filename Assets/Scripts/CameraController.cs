@@ -10,35 +10,27 @@ public class CameraController : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        MoveAxis(Vector3.forward, KeyCode.W, KeyCode.S);
-        MoveAxis(Vector3.right, KeyCode.D, KeyCode.A);
-        MoveAxis(Vector3.up, KeyCode.Space, KeyCode.LeftShift);
+        MoveAxis(Vector3.forward, Input.GetAxis("CamForward"));
+        MoveAxis(Vector3.right, Input.GetAxis("CamHorizontal"));
+        MoveAxis(Vector3.up, Input.GetAxis("CamVertical"));
 
-        RotateAxis(Vector3.up, Space.World, KeyCode.RightArrow, KeyCode.LeftArrow);
-        RotateAxis(Vector3.right, Space.Self, KeyCode.DownArrow, KeyCode.UpArrow);
+        RotateAxis(Vector3.up, Space.World, Input.GetAxis("CamRotY"));
+        RotateAxis(Vector3.right, Space.Self, Input.GetAxis("CamRotX"));
     }
 
-    void MoveAxis(Vector3 axis, KeyCode forwardKey, KeyCode backwardKey)
+    void MoveAxis(Vector3 axis, float input)
     {
-        if (Input.GetKey(forwardKey))
+        if (input != 0.0f)
         {
-            transform.Translate(axis * moveSpeed);
-        }
-        if (Input.GetKey(backwardKey))
-        {
-            transform.Translate(axis * -moveSpeed);
+            transform.Translate(axis * input * moveSpeed);
         }
     }
 
-    void RotateAxis(Vector3 axis, Space relativeTo, KeyCode clockwiseKey, KeyCode counterclockwiseKey)
+    void RotateAxis(Vector3 axis, Space relativeTo, float input)
     {
-        if (Input.GetKey(clockwiseKey))
+        if (input != 0.0f)
         {
-            transform.Rotate(axis, rotateSpeed, relativeTo);
-        }
-        if (Input.GetKey(counterclockwiseKey))
-        {
-            transform.Rotate(axis, -rotateSpeed, relativeTo);
+            transform.Rotate(axis, input * rotateSpeed, relativeTo);
         }
     }
 }
