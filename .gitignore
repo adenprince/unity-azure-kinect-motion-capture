@@ -7,5 +7,7 @@ Temp
 Assets/Plugins
 *.csv
 *.csv.meta
+*.png
+*.png.meta
 *.dll
 *.onnx

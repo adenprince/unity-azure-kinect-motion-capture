@@ -14,6 +14,9 @@ public class main : MonoBehaviour
     public DepthMode depthMode = DepthMode.NFOV_Unbinned;
     public WiredSyncMode wiredSyncMode = WiredSyncMode.Standalone;
 
+    int screenshotIndex = 1;
+    string screenshotPath;
+    
     void Start()
     {
         SkeletalTrackingProvider m_skeletalTrackingProvider = new SkeletalTrackingProvider(frameRate, depthMode, wiredSyncMode);
@@ -22,6 +25,14 @@ public class main : MonoBehaviour
         const int TRACKER_ID = 0;
         m_skeletalTrackingProvider.StartClientThread(TRACKER_ID);
         m_backgroundDataProvider = m_skeletalTrackingProvider;
+
+        screenshotPath = Application.dataPath + "/screenshot" + screenshotIndex + ".png";
+
+        while (System.IO.File.Exists(screenshotPath))
+        {
+            ++screenshotIndex;
+            screenshotPath = Application.dataPath + "/screenshot" + screenshotIndex + ".png";
+        }
     }
 
     void Update()
@@ -32,6 +43,15 @@ public class main : MonoBehaviour
             {
                 m_tracker.GetComponent<TrackerHandler>().updateTracker(m_lastFrameData);
             }
+        }
+
+        if (Input.GetButtonDown("Screenshot"))
+        {
+            ScreenCapture.CaptureScreenshot(screenshotPath);
+            Debug.Log("Screenshot saved in \"" + screenshotPath + "\"");
+
+            ++screenshotIndex;
+            screenshotPath = Application.dataPath + "/screenshot" + screenshotIndex + ".png";
         }
     }
 
