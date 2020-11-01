@@ -11,6 +11,7 @@ public class DataRecorder : MonoBehaviour
 {
     public Text dataText;
 
+    bool writeData = true;
     string outputPath;
     string fileName;
     string displayedData;
@@ -19,14 +20,18 @@ public class DataRecorder : MonoBehaviour
     void Start()
     {
         outputPath = Application.dataPath + "/" + fileName;
-        File.WriteAllText(outputPath, "Time,ID,Left Elbow Angle,Right Elbow Angle,Left Knee Angle,Right Knee Angle,");
 
-        // Write column names for joint positions
-        for (int i = 0; i < (int)JointId.Count - 1; ++i)
+        if (writeData)
         {
-            File.AppendAllText(outputPath, ((JointId)i).ToString() + " Pos,");
+            File.WriteAllText(outputPath, "Time,ID,Left Elbow Angle,Right Elbow Angle,Left Knee Angle,Right Knee Angle,");
+
+            // Write column names for joint positions
+            for(int i = 0; i < (int)JointId.Count - 1; ++i)
+            {
+                File.AppendAllText(outputPath, ((JointId)i).ToString() + " Pos,");
+            }
+            File.AppendAllText(outputPath, JointId.EarRight.ToString() + " Pos\n");
         }
-        File.AppendAllText(outputPath, JointId.EarRight.ToString() + " Pos\n");
     }
 
     public float getJointAngle(System.Numerics.Vector3[] jointPositions3D, int jointID)
@@ -47,20 +52,23 @@ public class DataRecorder : MonoBehaviour
         float leftKneeAngle = getJointAngle(skeleton.JointPositions3D, (int)JointId.KneeLeft);
         float rightKneeAngle = getJointAngle(skeleton.JointPositions3D, (int)JointId.KneeRight);
 
-        // Write joint angle data to file
-        File.AppendAllText(outputPath, Time.time + "," + skeleton.Id + "," + leftElbowAngle + "," +
-                                       rightElbowAngle + "," + leftKneeAngle + "," + rightKneeAngle + ",");
-
-        // Write position and distance data for each joint to the output file
-        System.Numerics.Vector3 curJoint;
-        for (int i = 0; i < (int)JointId.Count - 1; ++i)
+        if (writeData)
         {
-            curJoint = skeleton.JointPositions3D[i];
-            File.AppendAllText(outputPath, "\"" + curJoint.ToString() + ", " + curJoint.Length() + "\",");
+            // Write joint angle data to file
+            File.AppendAllText(outputPath, Time.time + "," + skeleton.Id + "," + leftElbowAngle + "," +
+                                           rightElbowAngle + "," + leftKneeAngle + "," + rightKneeAngle + ",");
+
+            // Write position and distance data for each joint to the output file
+            System.Numerics.Vector3 curJoint;
+            for(int i = 0; i < (int)JointId.Count - 1; ++i)
+            {
+                curJoint = skeleton.JointPositions3D[i];
+                File.AppendAllText(outputPath, "\"" + curJoint.ToString() + ", " + curJoint.Length() + "\",");
+            }
+            // Write last joint position and distance data
+            curJoint = skeleton.JointPositions3D[(int)JointId.EarRight];
+            File.AppendAllText(outputPath, "\"" + curJoint.ToString() + ", " + curJoint.Length() + "\"\n");
         }
-        // Write last joint position and distance data
-        curJoint = skeleton.JointPositions3D[(int)JointId.EarRight];
-        File.AppendAllText(outputPath, "\"" + curJoint.ToString() + ", " + curJoint.Length() + "\"\n");
 
         Action<int, float> setAngleText = delegate(int Id, float angle)
         {
@@ -103,5 +111,10 @@ public class DataRecorder : MonoBehaviour
     public void setFileName(string fileName)
     {
         this.fileName = fileName;
+    }
+
+    public void setWriteData(bool writeData)
+    {
+        this.writeData = writeData;
     }
 }

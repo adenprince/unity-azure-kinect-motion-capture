@@ -13,6 +13,7 @@ public class StartButton : MonoBehaviour
     public GameObject[] disableOnClick;
     public GameObject[] enableOnClick;
 
+    bool writeData = true;
     string errorMessages;
 
     public void onStartButtonClick()
@@ -39,11 +40,11 @@ public class StartButton : MonoBehaviour
     {
         errorMessages = "";
 
-        if (outputFileName.text == "")
+        if (writeData && outputFileName.text == "")
         {
             addError("Output file name cannot be empty.");
         }
-        else if (System.IO.File.Exists(Application.dataPath + "/" + outputFileName.text))
+        else if (writeData && System.IO.File.Exists(Application.dataPath + "/" + outputFileName.text))
         {
             addError("Output file \"" + outputFileName.text + "\" already exists.");
         }
@@ -67,5 +68,10 @@ public class StartButton : MonoBehaviour
         {
             g.SetActive(true);
         }
+    }
+
+    public void setWriteData(bool writeData)
+    {
+        this.writeData = writeData;
     }
 }
