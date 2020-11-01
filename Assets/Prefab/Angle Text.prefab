@@ -75,7 +75,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1773256045
-  m_SortingLayer: 1
+  m_SortingLayer: 0
   m_SortingOrder: 0
 --- !u!33 &4154933397313742585
 MeshFilter:
@@ -218,4 +218,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetJoint: {fileID: 0}
+  pelvis: {fileID: 0}
+  xOffset: 0.1
   yOffset: 0.1

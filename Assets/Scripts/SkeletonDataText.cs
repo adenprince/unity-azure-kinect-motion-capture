@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class SkeletonDataText : MonoBehaviour
 {
-    public GameObject targetJoint;
+    public Transform targetJoint;
+    public Transform pelvis;
+    public float xOffset;
     public float yOffset;
 
     // Update is called once per frame
@@ -13,9 +15,10 @@ public class SkeletonDataText : MonoBehaviour
         // Face the camera
         transform.forward = Camera.main.transform.forward;
 
-        // Set position to above the target joint
-        Vector3 targetJointPos = targetJoint.transform.position;
+        // Set position to above the target joint and away from the pelvis
+        Vector3 targetJointPos = targetJoint.position;
         targetJointPos.y += yOffset;
+        targetJointPos.x += xOffset * Mathf.Sign(targetJoint.position.x - pelvis.position.x);
         transform.position = targetJointPos;
     }
 }

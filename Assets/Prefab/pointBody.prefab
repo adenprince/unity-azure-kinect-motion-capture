@@ -4146,7 +4146,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e980c758b608e4fa665424feedf38d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetJoint: {fileID: 3936104067148553338}
+  targetJoint: {fileID: 2603403491025223580}
+  pelvis: {fileID: 7755343654243269667}
   xOffset: 0
   yOffset: 0.25
 --- !u!1 &4785065712948716646
@@ -6301,12 +6302,17 @@ PrefabInstance:
         type: 3}
       propertyPath: targetJoint
       value: 
-      objectReference: {fileID: 3507939516170185490}
+      objectReference: {fileID: 6946572024570761813}
     - target: {fileID: 1730019778998600807, guid: 2325915adef261d43b54b57561ad1ced,
         type: 3}
       propertyPath: xOffset
-      value: -0.1
+      value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 1730019778998600807, guid: 2325915adef261d43b54b57561ad1ced,
+        type: 3}
+      propertyPath: pelvis
+      value: 
+      objectReference: {fileID: 7755343654243269667}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2325915adef261d43b54b57561ad1ced, type: 3}
 --- !u!224 &2744998022828901648 stripped
@@ -6441,7 +6447,17 @@ PrefabInstance:
         type: 3}
       propertyPath: targetJoint
       value: 
-      objectReference: {fileID: 8888686473344552299}
+      objectReference: {fileID: 7793374584372224358}
+    - target: {fileID: 1730019778998600807, guid: 2325915adef261d43b54b57561ad1ced,
+        type: 3}
+      propertyPath: pelvis
+      value: 
+      objectReference: {fileID: 7755343654243269667}
+    - target: {fileID: 1730019778998600807, guid: 2325915adef261d43b54b57561ad1ced,
+        type: 3}
+      propertyPath: xOffset
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2325915adef261d43b54b57561ad1ced, type: 3}
 --- !u!224 &2545242528803405531 stripped
@@ -6576,12 +6592,17 @@ PrefabInstance:
         type: 3}
       propertyPath: targetJoint
       value: 
-      objectReference: {fileID: 3151608606811775039}
+      objectReference: {fileID: 1351405248006112753}
     - target: {fileID: 1730019778998600807, guid: 2325915adef261d43b54b57561ad1ced,
         type: 3}
       propertyPath: xOffset
       value: 0.1
       objectReference: {fileID: 0}
+    - target: {fileID: 1730019778998600807, guid: 2325915adef261d43b54b57561ad1ced,
+        type: 3}
+      propertyPath: pelvis
+      value: 
+      objectReference: {fileID: 7755343654243269667}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2325915adef261d43b54b57561ad1ced, type: 3}
 --- !u!224 &2187427578444969545 stripped
@@ -6716,7 +6737,17 @@ PrefabInstance:
         type: 3}
       propertyPath: targetJoint
       value: 
-      objectReference: {fileID: 4785065712948716646}
+      objectReference: {fileID: 6242016246426801492}
+    - target: {fileID: 1730019778998600807, guid: 2325915adef261d43b54b57561ad1ced,
+        type: 3}
+      propertyPath: pelvis
+      value: 
+      objectReference: {fileID: 7755343654243269667}
+    - target: {fileID: 1730019778998600807, guid: 2325915adef261d43b54b57561ad1ced,
+        type: 3}
+      propertyPath: xOffset
+      value: 0.1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2325915adef261d43b54b57561ad1ced, type: 3}
 --- !u!224 &9118500064282306664 stripped
