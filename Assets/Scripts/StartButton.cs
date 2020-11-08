@@ -34,6 +34,9 @@ public class StartButton : MonoBehaviour
 
             disableGameObjects();
             enableGameObjects();
+
+            // Time starts when the start button is pressed
+            Time.timeScale = 1.0f;
         }
     }
 

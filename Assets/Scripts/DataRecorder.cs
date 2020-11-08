@@ -60,7 +60,7 @@ public class DataRecorder : MonoBehaviour
 
             // Write position and distance data for each joint to the output file
             System.Numerics.Vector3 curJoint;
-            for(int i = 0; i < (int)JointId.Count - 1; ++i)
+            for (int i = 0; i < (int)JointId.Count - 1; ++i)
             {
                 curJoint = skeleton.JointPositions3D[i];
                 File.AppendAllText(outputPath, "\"" + curJoint.ToString() + ", " + curJoint.Length() + "\",");
