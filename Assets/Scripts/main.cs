@@ -9,6 +9,9 @@ public class main : MonoBehaviour
     public GameObject m_tracker;
     private BackgroundDataProvider m_backgroundDataProvider;
     public BackgroundData m_lastFrameData = new BackgroundData();
+    
+    // Cone for toggling visibility
+    public GameObject cone;
 
     public FPS frameRate = FPS.FPS30;
     public DepthMode depthMode = DepthMode.NFOV_Unbinned;
@@ -45,11 +48,26 @@ public class main : MonoBehaviour
             }
         }
 
+        if (Input.GetButtonDown("ToggleCone"))
+        {
+            // Toggle whether the cone is active or not
+            cone.SetActive(!cone.activeSelf);
+        }
+
+        if (Input.GetButtonDown("ResetCamera"))
+        {
+            // Set camera position to origin and reset rotation
+            Camera.main.transform.position = Vector3.zero;
+            Camera.main.transform.rotation = Quaternion.identity;
+        }
+
         if (Input.GetButtonDown("Screenshot"))
         {
+            // Take screenshot
             ScreenCapture.CaptureScreenshot(screenshotPath);
             Debug.Log("Screenshot saved in \"" + screenshotPath + "\"");
 
+            // Increment screenshot name index
             ++screenshotIndex;
             screenshotPath = Application.dataPath + "/screenshot" + screenshotIndex + ".png";
         }
