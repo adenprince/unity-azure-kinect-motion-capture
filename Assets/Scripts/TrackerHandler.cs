@@ -125,16 +125,10 @@ public class TrackerHandler : MonoBehaviour
         // Reset data GUI text
         gameObject.GetComponent<DataRecorder>().resetDisplayedData();
 
-        // Get copy of body list and sort it by ID
-        // This prevents the data display body order from switching
-        Body[] sortedBodies = new Body[numBodies];
-        Array.Copy(trackerFrameData.Bodies, sortedBodies, numBodies);
-        Array.Sort(sortedBodies, (b1, b2) => b1.Id.CompareTo(b2.Id));
-
         // Render and collect data for each body
         for (int i = 0; i < numBodies; ++i)
         {
-            Body skeleton = sortedBodies[i];
+            Body skeleton = trackerFrameData.Bodies[i];
             renderSkeleton(skeleton, i);
 
             gameObject.GetComponent<DataRecorder>().collectData(skeleton, i);
