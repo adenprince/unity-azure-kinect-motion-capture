@@ -71,10 +71,10 @@
     <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
     <Compile Include="Assets\Scripts\CustomColors.cs" />
-    <Compile Include="Assets\Scripts\DataPlayback.cs" />
     <Compile Include="Assets\Scripts\DataRecorder.cs" />
     <Compile Include="Assets\Scripts\main.cs" />
     <Compile Include="Assets\Scripts\OutputFileNameInput.cs" />
+    <Compile Include="Assets\Scripts\PlaybackHandler.cs" />
     <Compile Include="Assets\Scripts\PuppetAvatar.cs" />
     <Compile Include="Assets\Scripts\SkeletalTrackingProvider.cs" />
     <Compile Include="Assets\Scripts\SkeletonDataText.cs" />

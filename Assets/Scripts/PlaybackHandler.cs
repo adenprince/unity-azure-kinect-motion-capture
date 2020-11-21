@@ -4,7 +4,7 @@ using UnityEngine;
 using Microsoft.Azure.Kinect.BodyTracking;
 using System.IO;
 
-public class DataPlayback : MonoBehaviour
+public class PlaybackHandler : MonoBehaviour
 {
     public GameObject pointBody;
 
@@ -27,11 +27,14 @@ public class DataPlayback : MonoBehaviour
         // Skip first line of file
         sr.ReadLine();
 
+        // Get array of strings from first row of data
         curLine = sr.ReadLine();
-
         if (curLine != null)
         {
             rowArr = curLine.Split(',');
+
+            // Create point body child
+            Instantiate(pointBody, transform);
         }
 
         StartCoroutine("RenderSkeleton");
@@ -40,60 +43,63 @@ public class DataPlayback : MonoBehaviour
     IEnumerator RenderSkeleton()
     {
         // Repeatedly render skeleton using joint position data in the input file
-        while (true)
+        while (curLine != null)
         {
-            float curTimestamp = 0.0f;
-            float nextTimestamp = 0.0f;
-
-            if (curLine != null)
+            // Used to get time to wait before updating the point body
+            float curTimestamp = float.Parse(rowArr[0]);
+            float nextTimestamp = curTimestamp;
+            
+            // Iterate through current input file line
+            // Joint positions start at column 7 and are in groups of 4
+            for (int i = 0; i < (int)JointId.Count * 4; i += 4)
             {
-                curTimestamp = float.Parse(rowArr[0]);
-
-                // Iterate through current input file line
-                for (int i = 0; i < (int)JointId.Count * 4; i += 4)
+                // Get a joint position from the line
+                float curJointX = float.Parse(rowArr[i + 6].Remove(0, 2));
+                float curJointY = -float.Parse(rowArr[i + 7]);
+                float curJointZ = float.Parse(rowArr[i + 8].Remove(rowArr[8 + i].Length - 1, 1));
+                Vector3 curJointPos = new Vector3(curJointX, curJointY, curJointZ);
+            
+                int jointNum = i / 4;
+            
+                // Set joint position to position in file
+                transform.GetChild(0).GetChild(jointNum).transform.position = curJointPos;
+            
+                // Get bone corresponding to current joint
+                Transform curBone = transform.GetChild(0).GetChild(jointNum).GetChild(0);
+                if (parentJointMap[(JointId)jointNum] != JointId.Head && parentJointMap[(JointId)jointNum] != JointId.Count)
                 {
-                    // Get a joint position from the line
-                    float curJointX = float.Parse(rowArr[6 + i].Remove(0, 2));
-                    float curJointY = -float.Parse(rowArr[7 + i]);
-                    float curJointZ = float.Parse(rowArr[8 + i].Remove(rowArr[8 + i].Length - 1, 1));
-                    Vector3 curJointPos = new Vector3(curJointX, curJointY, curJointZ);
-
-                    int jointNum = i / 4;
-
-                    // Set joint position to position in file
-                    transform.GetChild(0).GetChild(jointNum).transform.position = curJointPos;
-
-                    // Get bone corresponding to current joint
-                    Transform curBone = transform.GetChild(0).GetChild(jointNum).GetChild(0);
-                    if (parentJointMap[(JointId)jointNum] != JointId.Head && parentJointMap[(JointId)jointNum] != JointId.Count)
-                    {
-                        // Set bone transform to correct position, rotation, and scale
-                        Vector3 parentJointPos = transform.GetChild(0).GetChild((int)parentJointMap[(JointId)jointNum]).transform.position;
-                        curBone.position = (curJointPos + parentJointPos) / 2;
-                        curBone.transform.up = curJointPos - parentJointPos;
-                        Vector3 boneScale = new Vector3(1.0f, Vector3.Distance(curJointPos, parentJointPos) * 10.0f, 1.0f);
-                        curBone.localScale = boneScale;
-                    }
-                    else
-                    {
-                        // Bones with the parent head or count should not be rendered
-                        curBone.gameObject.SetActive(false);
-                    }
+                    // Set bone transform to correct position, rotation, and scale
+                    Vector3 parentJointPos = transform.GetChild(0).GetChild((int)parentJointMap[(JointId)jointNum]).transform.position;
+                    curBone.position = (curJointPos + parentJointPos) / 2;
+                    curBone.transform.up = curJointPos - parentJointPos;
+                    Vector3 boneScale = new Vector3(1.0f, Vector3.Distance(curJointPos, parentJointPos) * 10.0f, 1.0f);
+                    curBone.localScale = boneScale;
                 }
-
-                curLine = sr.ReadLine();
-                nextTimestamp = curTimestamp;
-
-                if (curLine != null)
+                else
                 {
-                    rowArr = curLine.Split(',');
-
-                    nextTimestamp = float.Parse(rowArr[0]);
+                    // Bones with the parent head or count should not be rendered
+                    curBone.gameObject.SetActive(false);
                 }
             }
+            
+            // Get array of strings from next row of data
+            curLine = sr.ReadLine();
+            if (curLine != null)
+            {
+                rowArr = curLine.Split(',');
 
+                // Get next row timestamp
+                nextTimestamp = float.Parse(rowArr[0]);
+            }
+            
             // Wait for time between data collection from the file
             yield return new WaitForSeconds(nextTimestamp - curTimestamp);
+        }
+
+        // After the file has been read, destroy child point bodies
+        foreach(Transform pointBody in transform)
+        {
+            Destroy(pointBody.gameObject);
         }
     }
 
