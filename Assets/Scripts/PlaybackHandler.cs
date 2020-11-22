@@ -17,11 +17,9 @@ public class PlaybackHandler : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Time.timeScale = 1.0f;
-
         initParentJointMap();
 
-        inputFileName = Application.dataPath + "/output.csv";
+        inputFileName = Application.dataPath + "/" + inputFileName;
         sr = new StreamReader(inputFileName);
 
         // Skip first line of file
@@ -101,6 +99,11 @@ public class PlaybackHandler : MonoBehaviour
         {
             Destroy(pointBody.gameObject);
         }
+    }
+
+    public void setInputFileName(string inputFileName)
+    {
+        this.inputFileName = inputFileName;
     }
 
     // Fill parent joint map (from TrackerHandler.cs)

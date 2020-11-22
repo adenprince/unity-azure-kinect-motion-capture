@@ -75,6 +75,7 @@
     <Compile Include="Assets\Scripts\main.cs" />
     <Compile Include="Assets\Scripts\OutputFileNameInput.cs" />
     <Compile Include="Assets\Scripts\PlaybackHandler.cs" />
+    <Compile Include="Assets\Scripts\PlaybackStartButton.cs" />
     <Compile Include="Assets\Scripts\PuppetAvatar.cs" />
     <Compile Include="Assets\Scripts\SkeletalTrackingProvider.cs" />
     <Compile Include="Assets\Scripts\SkeletonDataText.cs" />
