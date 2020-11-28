@@ -23,7 +23,7 @@ public class DataRecorder : MonoBehaviour
 
         if (writeData)
         {
-            File.WriteAllText(outputPath, "Time,ID,Left Elbow Angle,Right Elbow Angle,Left Knee Angle,Right Knee Angle,");
+            File.WriteAllText(outputPath, "Frame,Time,ID,Left Elbow Angle,Right Elbow Angle,Left Knee Angle,Right Knee Angle,");
 
             // Write column names for joint positions
             for(int i = 0; i < (int)JointId.Count - 1; ++i)
@@ -44,7 +44,7 @@ public class DataRecorder : MonoBehaviour
         return angleRad * 180 / Mathf.PI;
     }
 
-    public void collectData(Body skeleton, int skeletonNumber)
+    public void collectData(Body skeleton, int skeletonNumber, int frameNumber)
     {
         // Get joint angle data
         float leftElbowAngle = getJointAngle(skeleton.JointPositions3D, (int)JointId.ElbowLeft);
@@ -55,8 +55,9 @@ public class DataRecorder : MonoBehaviour
         if (writeData)
         {
             // Write joint angle data to file
-            File.AppendAllText(outputPath, Time.time + "," + skeleton.Id + "," + leftElbowAngle + "," +
-                                           rightElbowAngle + "," + leftKneeAngle + "," + rightKneeAngle + ",");
+            File.AppendAllText(outputPath, frameNumber + "," + Time.time + "," + skeleton.Id + "," +
+                                           leftElbowAngle + "," + rightElbowAngle + "," +
+                                           leftKneeAngle + "," + rightKneeAngle + ",");
 
             // Write position and distance data for each joint to the output file
             System.Numerics.Vector3 curJoint;

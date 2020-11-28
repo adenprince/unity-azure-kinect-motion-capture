@@ -13,6 +13,7 @@ public class TrackerHandler : MonoBehaviour
     Quaternion Y_180_FLIP = new Quaternion(0.0f, 1.0f, 0.0f, 0.0f);
     public GameObject pointBody;
     int numBodies = 0;
+    int frameNumber = 0;
 
     // Start is called before the first frame update
     void Awake()
@@ -125,13 +126,15 @@ public class TrackerHandler : MonoBehaviour
         // Reset data GUI text
         gameObject.GetComponent<DataRecorder>().resetDisplayedData();
 
+        ++frameNumber;
+
         // Render and collect data for each body
         for (int i = 0; i < numBodies; ++i)
         {
             Body skeleton = trackerFrameData.Bodies[i];
             renderSkeleton(skeleton, i);
 
-            gameObject.GetComponent<DataRecorder>().collectData(skeleton, i);
+            gameObject.GetComponent<DataRecorder>().collectData(skeleton, i, frameNumber);
         }
     }
 
