@@ -30,64 +30,58 @@ public class PlaybackHandler : MonoBehaviour
         if (curLine != null)
         {
             rowArr = curLine.Split(',');
-
-            // Create point body child
-            Instantiate(pointBody, transform);
         }
 
-        StartCoroutine("RenderSkeleton");
+        StartCoroutine("RenderAllSkeletons");
     }
 
-    IEnumerator RenderSkeleton()
+    IEnumerator RenderAllSkeletons()
     {
+        int numChildren = 0;
+
         // Repeatedly render skeleton using joint position data in the input file
         while (curLine != null)
         {
             // Used to get time to wait before updating the point body
-            float curTimestamp = float.Parse(rowArr[0]);
+            float curTimestamp = float.Parse(rowArr[1]);
             float nextTimestamp = curTimestamp;
-            
-            // Iterate through current input file line
-            // Joint positions start at column 7 and are in groups of 4
-            for (int i = 0; i < (int)JointId.Count * 4; i += 4)
+
+            int curFrame = int.Parse(rowArr[0]);
+            int curChild = 0;
+
+            // Render each skeleton on the current frame
+            while (curFrame == int.Parse(rowArr[0]) && curLine != null)
             {
-                // Get a joint position from the line
-                float curJointX = float.Parse(rowArr[i + 6].Remove(0, 2));
-                float curJointY = -float.Parse(rowArr[i + 7]);
-                float curJointZ = float.Parse(rowArr[i + 8].Remove(rowArr[8 + i].Length - 1, 1));
-                Vector3 curJointPos = new Vector3(curJointX, curJointY, curJointZ);
-            
-                int jointNum = i / 4;
-            
-                // Set joint position to position in file
-                transform.GetChild(0).GetChild(jointNum).transform.position = curJointPos;
-            
-                // Get bone corresponding to current joint
-                Transform curBone = transform.GetChild(0).GetChild(jointNum).GetChild(0);
-                if (parentJointMap[(JointId)jointNum] != JointId.Head && parentJointMap[(JointId)jointNum] != JointId.Count)
+                // Create new point body child if needed
+                if (curChild + 1 > numChildren)
                 {
-                    // Set bone transform to correct position, rotation, and scale
-                    Vector3 parentJointPos = transform.GetChild(0).GetChild((int)parentJointMap[(JointId)jointNum]).transform.position;
-                    curBone.position = (curJointPos + parentJointPos) / 2;
-                    curBone.transform.up = curJointPos - parentJointPos;
-                    Vector3 boneScale = new Vector3(1.0f, Vector3.Distance(curJointPos, parentJointPos) * 10.0f, 1.0f);
-                    curBone.localScale = boneScale;
+                    Instantiate(pointBody, transform);
+                    ++numChildren;
                 }
-                else
+
+                RenderSkeleton(rowArr, curChild);
+
+                ++curChild;
+
+                // Get array of strings from next row of data
+                curLine = sr.ReadLine();
+                if (curLine != null)
                 {
-                    // Bones with the parent head or count should not be rendered
-                    curBone.gameObject.SetActive(false);
+                    rowArr = curLine.Split(',');
                 }
             }
-            
-            // Get array of strings from next row of data
-            curLine = sr.ReadLine();
+
+            // Destroy unused point body children
+            while (numChildren > curChild)
+            {
+                Destroy(transform.GetChild(numChildren - 1).gameObject);
+                --numChildren;
+            }
+
             if (curLine != null)
             {
-                rowArr = curLine.Split(',');
-
-                // Get next row timestamp
-                nextTimestamp = float.Parse(rowArr[0]);
+                // Get next frame timestamp
+                nextTimestamp = float.Parse(rowArr[1]);
             }
             
             // Wait for time between data collection from the file
@@ -98,6 +92,42 @@ public class PlaybackHandler : MonoBehaviour
         foreach(Transform pointBody in transform)
         {
             Destroy(pointBody.gameObject);
+        }
+    }
+
+    void RenderSkeleton(string[] rowArr, int childNumber)
+    {
+        // Iterate through current input file line
+        // Joint positions start at column 8 and are in groups of 4
+        for(int i = 0; i < (int)JointId.Count * 4; i += 4)
+        {
+            // Get a joint position from the line
+            float curJointX = float.Parse(rowArr[i + 7].Remove(0, 2));
+            float curJointY = -float.Parse(rowArr[i + 8]);
+            float curJointZ = float.Parse(rowArr[i + 9].Remove(rowArr[9 + i].Length - 1, 1));
+            Vector3 curJointPos = new Vector3(curJointX, curJointY, curJointZ);
+
+            int jointNum = i / 4;
+
+            // Set joint position to position in file
+            transform.GetChild(childNumber).GetChild(jointNum).transform.position = curJointPos;
+
+            // Get bone corresponding to current joint
+            Transform curBone = transform.GetChild(childNumber).GetChild(jointNum).GetChild(0);
+            if(parentJointMap[(JointId)jointNum] != JointId.Head && parentJointMap[(JointId)jointNum] != JointId.Count)
+            {
+                // Set bone transform to correct position, rotation, and scale
+                Vector3 parentJointPos = transform.GetChild(childNumber).GetChild((int)parentJointMap[(JointId)jointNum]).transform.position;
+                curBone.position = (curJointPos + parentJointPos) / 2;
+                curBone.transform.up = curJointPos - parentJointPos;
+                Vector3 boneScale = new Vector3(1.0f, Vector3.Distance(curJointPos, parentJointPos) * 10.0f, 1.0f);
+                curBone.localScale = boneScale;
+            }
+            else
+            {
+                // Bones with the parent head or count should not be rendered
+                curBone.gameObject.SetActive(false);
+            }
         }
     }
 
