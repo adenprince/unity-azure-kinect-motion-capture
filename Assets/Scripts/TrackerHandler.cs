@@ -123,9 +123,6 @@ public class TrackerHandler : MonoBehaviour
             }
         }
 
-        // Reset data GUI text
-        gameObject.GetComponent<DataRecorder>().resetDisplayedData();
-
         ++frameNumber;
 
         // Make copy of body list and sort it by ID

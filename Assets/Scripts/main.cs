@@ -9,16 +9,10 @@ public class main : MonoBehaviour
     public GameObject m_tracker;
     private BackgroundDataProvider m_backgroundDataProvider;
     public BackgroundData m_lastFrameData = new BackgroundData();
-    
-    // Cone for toggling visibility
-    public GameObject cone;
 
     public FPS frameRate = FPS.FPS30;
     public DepthMode depthMode = DepthMode.NFOV_Unbinned;
     public WiredSyncMode wiredSyncMode = WiredSyncMode.Standalone;
-
-    int screenshotIndex = 1;
-    string screenshotPath;
     
     void Start()
     {
@@ -28,14 +22,6 @@ public class main : MonoBehaviour
         const int TRACKER_ID = 0;
         m_skeletalTrackingProvider.StartClientThread(TRACKER_ID);
         m_backgroundDataProvider = m_skeletalTrackingProvider;
-
-        screenshotPath = Application.dataPath + "/screenshot" + screenshotIndex + ".png";
-
-        while (System.IO.File.Exists(screenshotPath))
-        {
-            ++screenshotIndex;
-            screenshotPath = Application.dataPath + "/screenshot" + screenshotIndex + ".png";
-        }
     }
 
     void Update()
@@ -46,30 +32,6 @@ public class main : MonoBehaviour
             {
                 m_tracker.GetComponent<TrackerHandler>().updateTracker(m_lastFrameData);
             }
-        }
-
-        if (Input.GetButtonDown("ToggleCone"))
-        {
-            // Toggle whether the cone is active or not
-            cone.SetActive(!cone.activeSelf);
-        }
-
-        if (Input.GetButtonDown("ResetCamera"))
-        {
-            // Set camera position to origin and reset rotation
-            Camera.main.transform.position = Vector3.zero;
-            Camera.main.transform.rotation = Quaternion.identity;
-        }
-
-        if (Input.GetButtonDown("Screenshot"))
-        {
-            // Take screenshot
-            ScreenCapture.CaptureScreenshot(screenshotPath);
-            Debug.Log("Screenshot saved in \"" + screenshotPath + "\"");
-
-            // Increment screenshot name index
-            ++screenshotIndex;
-            screenshotPath = Application.dataPath + "/screenshot" + screenshotIndex + ".png";
         }
     }
 

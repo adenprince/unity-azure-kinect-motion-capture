@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using System.IO;
 using Microsoft.Azure.Kinect.BodyTracking;
 using System;
@@ -9,12 +8,9 @@ using TMPro;
 
 public class DataRecorder : MonoBehaviour
 {
-    public Text dataText;
-
     bool writeData = true;
     string outputPath;
     string fileName;
-    string displayedData;
 
     // Start is called before the first frame update
     void Start()
@@ -82,13 +78,6 @@ public class DataRecorder : MonoBehaviour
         setAngleText((int)JointId.ElbowRight, rightElbowAngle);
         setAngleText((int)JointId.KneeLeft, leftKneeAngle);
         setAngleText((int)JointId.KneeRight, rightKneeAngle);
-    }
-
-    public void resetDisplayedData()
-    {
-        this.displayedData = "Time: " + (int)Time.time;
-
-        dataText.text = displayedData;
     }
 
     public string getFileName()

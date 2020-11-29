@@ -68,7 +68,6 @@
     <Compile Include="Assets\Scripts\BackgroundData.cs" />
     <Compile Include="Assets\Scripts\BackgroundDataProvider.cs" />
     <Compile Include="Assets\Scripts\Body.cs" />
-    <Compile Include="Assets\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
     <Compile Include="Assets\Scripts\CustomColors.cs" />
     <Compile Include="Assets\Scripts\DataRecorder.cs" />
@@ -81,6 +80,7 @@
     <Compile Include="Assets\Scripts\SkeletonDataText.cs" />
     <Compile Include="Assets\Scripts\StartButton.cs" />
     <Compile Include="Assets\Scripts\TrackerHandler.cs" />
+    <Compile Include="Assets\Scripts\UserController.cs" />
     <Compile Include="Assets\Skeleton\CameraFlipper.cs" />
     <Compile Include="Assets\Skeleton\Skeleton.cs" />
     <Compile Include="Assets\Skeleton\SkeletonPosition.cs" />

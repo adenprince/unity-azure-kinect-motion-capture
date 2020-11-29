@@ -396,7 +396,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df1e2b2838981444f81729077beda639, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dataText: {fileID: 461975392}
 --- !u!1 &237671039
 GameObject:
   m_ObjectHideFlags: 0
@@ -1430,6 +1429,7 @@ GameObject:
   m_Component:
   - component: {fileID: 522368194}
   - component: {fileID: 522368195}
+  - component: {fileID: 522368197}
   - component: {fileID: 522368196}
   m_Layer: 0
   m_Name: Main
@@ -1465,7 +1465,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_tracker: {fileID: 1040247440}
-  cone: {fileID: 122918753}
   frameRate: 2
   depthMode: 2
   wiredSyncMode: 0
@@ -1481,6 +1480,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3a431c729dad074aadbc8e28bb624b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &522368197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 522368193}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd9fecf09bf5a884abfa7e94e4296db2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 0.1
+  rotateSpeed: 1
+  cone: {fileID: 122918753}
+  dataText: {fileID: 461975392}
 --- !u!1 &535133270
 GameObject:
   m_ObjectHideFlags: 0
@@ -2777,7 +2792,6 @@ GameObject:
   - component: {fileID: 963194228}
   - component: {fileID: 963194227}
   - component: {fileID: 963194226}
-  - component: {fileID: 963194229}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2850,20 +2864,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &963194229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd9fecf09bf5a884abfa7e94e4296db2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  moveSpeed: 0.1
-  rotateSpeed: 1
 --- !u!114 &1040247436
 MonoBehaviour:
   m_ObjectHideFlags: 0
