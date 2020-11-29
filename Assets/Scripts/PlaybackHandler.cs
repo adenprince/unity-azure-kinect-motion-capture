@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Microsoft.Azure.Kinect.BodyTracking;
 using System.IO;
+using System;
+using TMPro;
 
 public class PlaybackHandler : MonoBehaviour
 {
@@ -129,6 +131,21 @@ public class PlaybackHandler : MonoBehaviour
                 curBone.gameObject.SetActive(false);
             }
         }
+
+        Action<int, float> setAngleText = delegate (int Id, float angle)
+        {
+            transform.GetChild(childNumber).GetChild(Id).GetChild(1)
+                     .GetComponent<TextMeshPro>().text = angle.ToString("F0") + "°";
+        };
+
+        // Update rendered text with angle data
+        setAngleText((int)JointId.ElbowLeft, float.Parse(rowArr[3]));
+        setAngleText((int)JointId.ElbowRight, float.Parse(rowArr[4]));
+        setAngleText((int)JointId.KneeLeft, float.Parse(rowArr[5]));
+        setAngleText((int)JointId.KneeRight, float.Parse(rowArr[6]));
+
+        // Update skeleton ID text
+        transform.GetChild(childNumber).GetChild((int)JointId.Count).GetComponent<TextMeshPro>().text = rowArr[2];
     }
 
     public void setInputFileName(string inputFileName)

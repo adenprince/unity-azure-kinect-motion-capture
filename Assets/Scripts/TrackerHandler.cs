@@ -128,10 +128,15 @@ public class TrackerHandler : MonoBehaviour
 
         ++frameNumber;
 
+        // Make copy of body list and sort it by ID
+        Body[] sortedBodies = new Body[numBodies];
+        Array.Copy(trackerFrameData.Bodies, sortedBodies, numBodies);
+        Array.Sort(sortedBodies, (b1, b2) => b1.Id.CompareTo(b2.Id));
+
         // Render and collect data for each body
         for (int i = 0; i < numBodies; ++i)
         {
-            Body skeleton = trackerFrameData.Bodies[i];
+            Body skeleton = sortedBodies[i];
             renderSkeleton(skeleton, i);
 
             gameObject.GetComponent<DataRecorder>().collectData(skeleton, i, frameNumber);
