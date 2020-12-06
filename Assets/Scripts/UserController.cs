@@ -50,6 +50,11 @@ public class UserController : MonoBehaviour
             screenshotPath = Application.dataPath + "/screenshot" + screenshotIndex + ".png";
         }
 
+        if (Input.GetButtonDown("Quit"))
+        {
+            Application.Quit();
+        }
+
         dataText.text = "Time: " + (int)Time.time;
     }
 
