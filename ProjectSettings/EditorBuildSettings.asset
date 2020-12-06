@@ -4,5 +4,11 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/DataRecording.unity
+    guid: 31cda86d760055f4886c6ff5e76bc00c
+  - enabled: 1
+    path: Assets/Scenes/DataPlayback.unity
+    guid: 14882fb5b823adb48880bede1a3d479c
   m_configObjects: {}
