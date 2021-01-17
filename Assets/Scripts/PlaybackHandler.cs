@@ -44,6 +44,8 @@ public class PlaybackHandler : MonoBehaviour
         // Repeatedly render skeleton using joint position data in the input file
         while (curLine != null)
         {
+            float startTime = Time.realtimeSinceStartup;
+
             // Used to get time to wait before updating the point body
             float curTimestamp = float.Parse(rowArr[1]);
             float nextTimestamp = curTimestamp;
@@ -86,8 +88,8 @@ public class PlaybackHandler : MonoBehaviour
                 nextTimestamp = float.Parse(rowArr[1]);
             }
             
-            // Wait for time between data collection from the file
-            yield return new WaitForSeconds(nextTimestamp - curTimestamp);
+            // Wait for remaining time between data collection from the file
+            yield return new WaitForSeconds(nextTimestamp - curTimestamp - (Time.realtimeSinceStartup - startTime));
         }
 
         // After the file has been read, destroy child point bodies
