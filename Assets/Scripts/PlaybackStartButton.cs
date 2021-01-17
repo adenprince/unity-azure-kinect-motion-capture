@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class PlaybackStartButton : MonoBehaviour
 {
     public Text errorText;
-    public Text inputFileName;
-    public Text sensorHeight;
+    public InputField inputFileName;
+    public InputField sensorHeight;
     public Toggle emptyBackgroundToggle;
     public GameObject plane;
     public GameObject emptyBackground;

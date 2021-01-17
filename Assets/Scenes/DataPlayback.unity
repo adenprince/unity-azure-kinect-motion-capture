@@ -461,8 +461,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   errorText: {fileID: 1314920570}
-  inputFileName: {fileID: 1143587344}
-  sensorHeight: {fileID: 1126716972}
+  inputFileName: {fileID: 394680861}
+  sensorHeight: {fileID: 862677266}
   emptyBackgroundToggle: {fileID: 1420461584}
   plane: {fileID: 1073258965}
   emptyBackground: {fileID: 1749507751}

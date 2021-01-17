@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class StartButton : MonoBehaviour
 {
     public Text errorText;
-    public Text outputFileName;
-    public Text sensorHeight;
+    public InputField outputFileName;
+    public InputField sensorHeight;
     public Toggle emptyBackgroundToggle;
     public GameObject plane;
     public GameObject emptyBackground;
