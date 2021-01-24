@@ -13,10 +13,12 @@ public class main : MonoBehaviour
     public FPS frameRate = FPS.FPS30;
     public DepthMode depthMode = DepthMode.NFOV_Unbinned;
     public WiredSyncMode wiredSyncMode = WiredSyncMode.Standalone;
+
+    public UserMessages userMessages;
     
     void Start()
     {
-        SkeletalTrackingProvider m_skeletalTrackingProvider = new SkeletalTrackingProvider(frameRate, depthMode, wiredSyncMode);
+        SkeletalTrackingProvider m_skeletalTrackingProvider = new SkeletalTrackingProvider(frameRate, depthMode, wiredSyncMode, userMessages);
 
         //tracker ids needed for when there are two trackers
         const int TRACKER_ID = 0;

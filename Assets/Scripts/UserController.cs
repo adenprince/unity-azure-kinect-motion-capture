@@ -9,6 +9,7 @@ public class UserController : MonoBehaviour
     public float rotateSpeed;
     public GameObject cone; // Cone for toggling visibility
     public Text dataText;
+    public UserMessages userMessages;
 
     int screenshotIndex = 1;
     string screenshotPath;
@@ -43,7 +44,8 @@ public class UserController : MonoBehaviour
         {
             // Take screenshot
             ScreenCapture.CaptureScreenshot(screenshotPath);
-            Debug.Log("Screenshot saved in \"" + screenshotPath + "\"");
+            Debug.Log("Screenshot saved to \"" + screenshotPath + "\"");
+            userMessages.newUserMessage("Screenshot saved to \"screenshot" + screenshotIndex + ".png\"");
 
             // Increment screenshot name index
             ++screenshotIndex;

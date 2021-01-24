@@ -19,11 +19,15 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
     DepthMode depthMode;
     WiredSyncMode wiredSyncMode;
 
-    public SkeletalTrackingProvider(FPS frameRate, DepthMode depthMode, WiredSyncMode wiredSyncMode)
+    UserMessages userMessages;
+
+    public SkeletalTrackingProvider(FPS frameRate, DepthMode depthMode, WiredSyncMode wiredSyncMode, UserMessages userMessages)
     {
         this.frameRate = frameRate;
         this.depthMode = depthMode;
         this.wiredSyncMode = wiredSyncMode;
+
+        this.userMessages = userMessages;
     }
 
     protected override void RunBackgroundThreadAsync(int id)
@@ -46,12 +50,14 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
                 });
 
                 UnityEngine.Debug.Log("Open K4A device successful. id " + id + "sn:" + device.SerialNum );
+                userMessages.queueMessage("Azure Kinect device opened.");
 
                 var deviceCalibration = device.GetCalibration();
 
                 using (Tracker tracker = Tracker.Create(deviceCalibration, new TrackerConfiguration() { ProcessingMode = TrackerProcessingMode.Gpu, SensorOrientation = SensorOrientation.Default }))
                 {
                     UnityEngine.Debug.Log("Body tracker created.");
+                    userMessages.queueMessage("Body tracker created.");
                     while (m_runBackgroundThread)
                     {
                         using (Capture sensorCapture = device.GetCapture())
@@ -129,6 +135,7 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
         catch (Exception e)
         {
             UnityEngine.Debug.LogError(e.Message);
+            userMessages.queueMessage("Getting Azure Kinect data failed.");
         }
     }
 }
