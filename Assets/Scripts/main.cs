@@ -10,6 +10,8 @@ public class main : MonoBehaviour
     private BackgroundDataProvider m_backgroundDataProvider;
     public BackgroundData m_lastFrameData = new BackgroundData();
 
+    public ColorCameraView colorCameraView;
+
     public FPS frameRate = FPS.FPS30;
     public DepthMode depthMode = DepthMode.NFOV_Unbinned;
     public WiredSyncMode wiredSyncMode = WiredSyncMode.Standalone;
@@ -18,7 +20,7 @@ public class main : MonoBehaviour
     
     void Start()
     {
-        SkeletalTrackingProvider m_skeletalTrackingProvider = new SkeletalTrackingProvider(frameRate, depthMode, wiredSyncMode, userMessages);
+        SkeletalTrackingProvider m_skeletalTrackingProvider = new SkeletalTrackingProvider(colorCameraView, frameRate, depthMode, wiredSyncMode, userMessages);
 
         //tracker ids needed for when there are two trackers
         const int TRACKER_ID = 0;

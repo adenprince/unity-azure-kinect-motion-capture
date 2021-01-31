@@ -15,21 +15,25 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
 
     public Stream RawDataLoggingFile = null;
 
+    ColorCameraView colorCameraView;
+
     FPS frameRate;
     DepthMode depthMode;
     WiredSyncMode wiredSyncMode;
 
     UserMessages userMessages;
 
-    public SkeletalTrackingProvider(FPS frameRate, DepthMode depthMode, WiredSyncMode wiredSyncMode, UserMessages userMessages)
+    public SkeletalTrackingProvider(ColorCameraView colorCameraView, FPS frameRate, DepthMode depthMode, WiredSyncMode wiredSyncMode, UserMessages userMessages)
     {
+        this.colorCameraView = colorCameraView;
+
         this.frameRate = frameRate;
         this.depthMode = depthMode;
         this.wiredSyncMode = wiredSyncMode;
 
         this.userMessages = userMessages;
     }
-
+    
     protected override void RunBackgroundThreadAsync(int id)
     {
         try
@@ -44,9 +48,10 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
                 device.StartCameras(new DeviceConfiguration()
                 {
                     CameraFPS = frameRate,
-                    ColorResolution = ColorResolution.Off,
+                    ColorResolution = ColorResolution.R720p,
                     DepthMode = depthMode,
                     WiredSyncMode = wiredSyncMode,
+                    ColorFormat = ImageFormat.ColorBGRA32,
                 });
 
                 UnityEngine.Debug.Log("Open K4A device successful. id " + id + "sn:" + device.SerialNum );
@@ -88,6 +93,11 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
                                 // Store depth image.
                                 Capture bodyFrameCapture = frame.Capture;
                                 Image depthImage = bodyFrameCapture.Depth;
+
+                                // Get color image and update color camera view UI
+                                Image colorImage = bodyFrameCapture.Color;
+                                colorCameraView.setImage(colorImage);
+
                                 if (!readFirstFrame)
                                 {
                                     readFirstFrame = true;
