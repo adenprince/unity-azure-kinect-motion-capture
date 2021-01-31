@@ -11,3 +11,4 @@ Assets/Plugins
 *.png.meta
 *.dll
 *.onnx
+!Assets/Materials/*.png
