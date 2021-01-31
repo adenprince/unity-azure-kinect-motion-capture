@@ -10,6 +10,7 @@ public class UserController : MonoBehaviour
     public GameObject cone; // Cone for toggling visibility
     public Text dataText;
     public UserMessages userMessages;
+    public GameObject colorCameraView;
 
     int screenshotIndex = 1;
     string screenshotPath;
@@ -50,6 +51,12 @@ public class UserController : MonoBehaviour
             // Increment screenshot name index
             ++screenshotIndex;
             screenshotPath = Application.dataPath + "/screenshot" + screenshotIndex + ".png";
+        }
+
+        if (Input.GetButtonDown("ToggleColorCameraView"))
+        {
+            // Toggle whether the color camera view is active or not
+            colorCameraView.SetActive(!colorCameraView.activeInHierarchy);
         }
 
         if (Input.GetButtonDown("Quit"))

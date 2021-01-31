@@ -1877,6 +1877,7 @@ MonoBehaviour:
   cone: {fileID: 122918753}
   dataText: {fileID: 461975392}
   userMessages: {fileID: 1936346301}
+  colorCameraView: {fileID: 1704552182}
 --- !u!1 &535133270
 GameObject:
   m_ObjectHideFlags: 0
