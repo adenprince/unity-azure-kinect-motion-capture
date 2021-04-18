@@ -41,6 +41,16 @@ public class PlaybackHandler : MonoBehaviour
     {
         int numChildren = 0;
 
+        // Skip beginning lines without body data
+        while (curLine != null && rowArr[1] == "") {
+            // Get array of strings from next row of data
+            curLine = sr.ReadLine();
+            if (curLine != null)
+            {
+                rowArr = curLine.Split(',');
+            }
+        }
+
         // Repeatedly render skeleton using joint position data in the input file
         while (curLine != null)
         {
@@ -80,6 +90,16 @@ public class PlaybackHandler : MonoBehaviour
             {
                 Destroy(transform.GetChild(numChildren - 1).gameObject);
                 --numChildren;
+            }
+
+            // Skip lines without body data
+            while (curLine != null && rowArr[1] == "") {
+                // Get array of strings from next row of data
+                curLine = sr.ReadLine();
+                if (curLine != null)
+                {
+                    rowArr = curLine.Split(',');
+                }
             }
 
             if (curLine != null)
