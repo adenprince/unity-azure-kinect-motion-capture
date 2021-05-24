@@ -61,7 +61,10 @@ public class UserController : MonoBehaviour
 
         if (Input.GetButtonDown("Quit"))
         {
-            Application.Quit();
+            if (!Application.isEditor)
+            {
+                System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
         }
 
         dataText.text = "Time: " + (int)Time.time;
