@@ -10,6 +10,7 @@ public abstract class BackgroundDataProvider : IDisposable
     public bool IsRunning { get; set; } = false;
     private CancellationTokenSource _cancellationTokenSource;
     private CancellationToken _token;
+    private Task _backgroundThread;
 
     public BackgroundDataProvider(int id)
     {
@@ -18,7 +19,7 @@ public abstract class BackgroundDataProvider : IDisposable
 #endif
         _cancellationTokenSource = new CancellationTokenSource();
         _token = _cancellationTokenSource.Token;
-        Task.Run(() => RunBackgroundThreadAsync(id, _token));
+        _backgroundThread = Task.Run(() => RunBackgroundThreadAsync(id, _token));
     }
 
     private void OnEditorClose()
@@ -58,6 +59,7 @@ public abstract class BackgroundDataProvider : IDisposable
         UnityEditor.EditorApplication.quitting -= OnEditorClose;
 #endif
         _cancellationTokenSource?.Cancel();
+        _backgroundThread.Wait();
         _cancellationTokenSource?.Dispose();
         _cancellationTokenSource = null;
     }
