@@ -1,9 +1,9 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using Microsoft.Azure.Kinect.BodyTracking;
+using Microsoft.Azure.Kinect.Sensor;
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
-using Microsoft.Azure.Kinect.Sensor;
-using Microsoft.Azure.Kinect.BodyTracking;
+using System.Threading;
 using UnityEngine;
 
 public class SkeletalTrackingProvider : BackgroundDataProvider
@@ -23,7 +23,8 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
 
     UserMessages userMessages;
 
-    public SkeletalTrackingProvider(ColorCameraView colorCameraView, FPS frameRate, DepthMode depthMode, WiredSyncMode wiredSyncMode, UserMessages userMessages)
+    public SkeletalTrackingProvider(int id, ColorCameraView colorCameraView, FPS frameRate, DepthMode depthMode,
+        WiredSyncMode wiredSyncMode, UserMessages userMessages) : base(id)
     {
         this.colorCameraView = colorCameraView;
 
@@ -34,7 +35,7 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
         this.userMessages = userMessages;
     }
     
-    protected override void RunBackgroundThreadAsync(int id)
+    protected override void RunBackgroundThreadAsync(int id, CancellationToken token)
     {
         try
         {
@@ -63,7 +64,7 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
                 {
                     UnityEngine.Debug.Log("Body tracker created.");
                     userMessages.queueMessage("Body tracker created.");
-                    while (m_runBackgroundThread)
+                    while (!token.IsCancellationRequested)
                     {
                         using (Capture sensorCapture = device.GetCapture())
                         {
@@ -133,6 +134,7 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
 
                         }
                     }
+                    Debug.Log("Disposing of tracker.");
                     tracker.Dispose();
                 }
                 device.Dispose();
@@ -144,8 +146,9 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
         }
         catch (Exception e)
         {
-            UnityEngine.Debug.LogError(e.Message);
+            Debug.Log($"Catching exception for background thread: {e.Message}.");
             userMessages.queueMessage("Getting Azure Kinect data failed.");
+            token.ThrowIfCancellationRequested();
         }
     }
 }

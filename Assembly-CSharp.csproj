@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{610D6707-E672-9CFE-C29B-3A2E2CA867D2}</ProjectGuid>
+    <ProjectGuid>{2B9BFCA8-4BEC-82DA-3636-9FF321024C3B}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>Assembly-CSharp</AssemblyName>
@@ -47,7 +47,7 @@
   <PropertyGroup>
     <ProjectTypeGuids>{E097FAD1-6243-4DAD-9C02-E9B9EFC3FFC1};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <UnityProjectGenerator>Unity/VSTU</UnityProjectGenerator>
-    <UnityProjectGeneratorVersion>4.8.2.0</UnityProjectGeneratorVersion>
+    <UnityProjectGeneratorVersion>4.9.1.0</UnityProjectGeneratorVersion>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>2019.1.2f1</UnityVersion>
@@ -69,6 +69,7 @@
     <Compile Include="Assets\Scripts\BackgroundData.cs" />
     <Compile Include="Assets\Scripts\BackgroundDataProvider.cs" />
     <Compile Include="Assets\Scripts\Body.cs" />
+    <Compile Include="Assets\Scripts\ColorCameraView.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
     <Compile Include="Assets\Scripts\CustomColors.cs" />
     <Compile Include="Assets\Scripts\DataRecorder.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Assets\Scripts\StartButton.cs" />
     <Compile Include="Assets\Scripts\TrackerHandler.cs" />
     <Compile Include="Assets\Scripts\UserController.cs" />
+    <Compile Include="Assets\Scripts\UserMessages.cs" />
     <Compile Include="Assets\Skeleton\CameraFlipper.cs" />
     <Compile Include="Assets\Skeleton\Skeleton.cs" />
     <Compile Include="Assets\Skeleton\SkeletonPosition.cs" />
@@ -106,25 +108,25 @@
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_Sprite.shader" />
     <None Include="Assets\TextMesh Pro\Resources\Shaders\TMP_SDF-Surface.shader" />
     <Reference Include="Unity.Timeline.Editor">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Timeline">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Library/ScriptAssemblies/Unity.Timeline.dll</HintPath>
     </Reference>
     <Reference Include="Unity.CollabProxy.Editor">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Library/ScriptAssemblies/Unity.CollabProxy.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Library/ScriptAssemblies/Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.DataPrivacy">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Library/ScriptAssemblies/Unity.Analytics.DataPrivacy.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.2f1/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
@@ -310,31 +312,31 @@
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.2f1/Editor/Data/UnityExtensions/Unity/TestRunner/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Kinect.BodyTracking">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Assets/Plugins/Microsoft.Azure.Kinect.BodyTracking.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Assets/Plugins/Microsoft.Azure.Kinect.BodyTracking.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Azure.Kinect.Sensor">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Assets/Plugins/Microsoft.Azure.Kinect.Sensor.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Assets/Plugins/Microsoft.Azure.Kinect.Sensor.dll</HintPath>
     </Reference>
     <Reference Include="System.Buffers">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Assets/Plugins/System.Buffers.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Assets/Plugins/System.Buffers.dll</HintPath>
     </Reference>
     <Reference Include="System.Memory">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Assets/Plugins/System.Memory.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Assets/Plugins/System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Reflection.Emit.Lightweight">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Assets/Plugins/System.Reflection.Emit.Lightweight.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Assets/Plugins/System.Reflection.Emit.Lightweight.dll</HintPath>
     </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Assets/Plugins/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Assets/Plugins/System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-      <HintPath>C:/Users/adenp/source/repos/UnityAzureKinectDataCollector/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
+      <HintPath>C:/Users/HiMER Lab/Documents/GitHub/unity-azure-kinect-motion-capture/Library/PackageCache/com.unity.analytics@3.3.2/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="netstandard">
       <HintPath>C:/Program Files/Unity/Hub/Editor/2019.1.2f1/Editor/Data/NetStandard/ref/2.0.0/netstandard.dll</HintPath>

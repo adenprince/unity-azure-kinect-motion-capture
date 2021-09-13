@@ -1,13 +1,11 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-using Microsoft.Azure.Kinect.BodyTracking;
+﻿using UnityEngine;
 using Microsoft.Azure.Kinect.Sensor;
 
 public class main : MonoBehaviour
 {
     // Handler for SkeletalTracking thread.
     public GameObject m_tracker;
-    private BackgroundDataProvider m_backgroundDataProvider;
+    private SkeletalTrackingProvider m_skeletalTrackingProvider;
     public BackgroundData m_lastFrameData = new BackgroundData();
 
     public ColorCameraView colorCameraView;
@@ -20,19 +18,17 @@ public class main : MonoBehaviour
     
     void Start()
     {
-        SkeletalTrackingProvider m_skeletalTrackingProvider = new SkeletalTrackingProvider(colorCameraView, frameRate, depthMode, wiredSyncMode, userMessages);
-
         //tracker ids needed for when there are two trackers
         const int TRACKER_ID = 0;
-        m_skeletalTrackingProvider.StartClientThread(TRACKER_ID);
-        m_backgroundDataProvider = m_skeletalTrackingProvider;
+        m_skeletalTrackingProvider = new SkeletalTrackingProvider(TRACKER_ID, colorCameraView, frameRate,
+            depthMode, wiredSyncMode, userMessages);
     }
 
     void Update()
     {
-        if (m_backgroundDataProvider.IsRunning)
+        if (m_skeletalTrackingProvider.IsRunning)
         {
-            if (m_backgroundDataProvider.GetCurrentFrameData(ref m_lastFrameData))
+            if (m_skeletalTrackingProvider.GetCurrentFrameData(ref m_lastFrameData))
             {
                 m_tracker.GetComponent<TrackerHandler>().updateTracker(m_lastFrameData);
             }
@@ -41,10 +37,9 @@ public class main : MonoBehaviour
 
     void OnApplicationQuit()
     {
-        // Stop background threads.
-        if (m_backgroundDataProvider != null)
+        if (m_skeletalTrackingProvider != null)
         {
-            m_backgroundDataProvider.StopClientThread();
+            m_skeletalTrackingProvider.Dispose();
         }
     }
 
