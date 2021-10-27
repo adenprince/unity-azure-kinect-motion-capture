@@ -15,8 +15,12 @@ public class TrackerHandler : MonoBehaviour
     int numBodies = 0;
     int frameNumber = 0;
 
-    // Start is called before the first frame update
-    void Awake()
+    bool twoSensors = false;
+
+    SensorCalibration sensorCalibration;
+
+    // TODO: Potentially change back to Awake after two sensors UI option is added
+    void Start()
     {
         parentJointMap = new Dictionary<JointId, JointId>();
 
@@ -104,6 +108,11 @@ public class TrackerHandler : MonoBehaviour
         basisJointMap[JointId.EarLeft] = spineHipBasis;
         basisJointMap[JointId.EyeRight] = spineHipBasis;
         basisJointMap[JointId.EarRight] = spineHipBasis;
+
+        if (twoSensors)
+        {
+            sensorCalibration = SensorCalibration.CreateFromJSONFile("sensorCalibration.json");
+        }
     }
 
     public void updateTracker(BackgroundData trackerFrameData)
@@ -136,8 +145,60 @@ public class TrackerHandler : MonoBehaviour
             Body skeleton = sortedBodies[i];
             renderSkeleton(skeleton, i);
 
-            gameObject.GetComponent<DataRecorder>().collectData(skeleton, i, frameNumber);
+            GetComponent<DataRecorder>().collectData(skeleton, i, frameNumber);
         }
+    }
+
+    public void updateTrackerTwoSensors(BackgroundData trackerFrameData1, BackgroundData trackerFrameData2)
+    {
+        ++frameNumber;
+
+        Body masterBody = trackerFrameData1.Bodies[0];
+        Body subordinateBody = trackerFrameData2.Bodies[0];
+
+        if (trackerFrameData1.NumOfBodies == 1)
+        {
+            renderSkeleton(masterBody, 0);
+        }
+
+        if (trackerFrameData2.NumOfBodies == 1)
+        {
+            renderSkeleton(subordinateBody, 1);
+        }
+
+        if (trackerFrameData1.NumOfBodies == 1 && trackerFrameData2.NumOfBodies == 1)
+        {
+            renderSkeleton(mergeBodies(masterBody, subordinateBody), 3);
+        }
+    }
+
+    public Body mergeBodies(Body masterBody, Body subordinateBody)
+    {
+        Body transformedBody = subordinateBody;
+        Body mergedSkeleton = new Body((int)JointId.Count);
+
+        for (int i = 0; i < (int)JointId.Count; ++i)
+        {
+            transformedBody.JointPositions3D[i] -= sensorCalibration.subordinateTranslationVectorNumerics;
+
+            transformedBody.JointPositions3D[i] = System.Numerics.Vector3.Transform(transformedBody.JointPositions3D[i], sensorCalibration.subordinateRotationTransposedNumerics);
+
+            transformedBody.JointPositions3D[i] = System.Numerics.Vector3.Transform(transformedBody.JointPositions3D[i], sensorCalibration.masterRotationNumerics);
+
+            transformedBody.JointPositions3D[i] += sensorCalibration.masterTranslationVectorNumerics;
+
+            mergedSkeleton.JointPositions3D[i] = weightedAverage(transformedBody.JointPositions3D[i], (float)transformedBody.JointPrecisions[i],
+                                                                 masterBody.JointPositions3D[i], (float)masterBody.JointPrecisions[i]);
+        }
+
+        renderSkeleton(transformedBody, 2);
+
+        return mergedSkeleton;
+    }
+
+    System.Numerics.Vector3 weightedAverage(System.Numerics.Vector3 val1, float weight1, System.Numerics.Vector3 val2, float weight2)
+    {
+        return (weight1 * val1 + weight2 * val2) / (weight1 + weight2);
     }
 
     int findIndexFromId(BackgroundData frameData, int id)
@@ -237,4 +298,8 @@ public class TrackerHandler : MonoBehaviour
         return relativeRotation;
     }
 
+    public void SetTwoSensors(bool twoSensors)
+    {
+        this.twoSensors = twoSensors;
+    }
 }

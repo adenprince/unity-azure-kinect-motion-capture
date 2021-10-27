@@ -79,10 +79,12 @@
     <Compile Include="Assets\Scripts\PlaybackStartButton.cs" />
     <Compile Include="Assets\Scripts\PuppetAvatar.cs" />
     <Compile Include="Assets\Scripts\SceneSwitcher.cs" />
+    <Compile Include="Assets\Scripts\SensorCalibration.cs" />
     <Compile Include="Assets\Scripts\SkeletalTrackingProvider.cs" />
     <Compile Include="Assets\Scripts\SkeletonDataText.cs" />
     <Compile Include="Assets\Scripts\StartButton.cs" />
     <Compile Include="Assets\Scripts\TrackerHandler.cs" />
+    <Compile Include="Assets\Scripts\TwoSensorsRecorderSetup.cs" />
     <Compile Include="Assets\Scripts\UserController.cs" />
     <Compile Include="Assets\Scripts\UserMessages.cs" />
     <Compile Include="Assets\Skeleton\CameraFlipper.cs" />

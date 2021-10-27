@@ -15,6 +15,8 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
 
     public Stream RawDataLoggingFile = null;
 
+    Device device;
+
     ColorCameraView colorCameraView;
 
     FPS frameRate;
@@ -33,6 +35,22 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
         this.wiredSyncMode = wiredSyncMode;
 
         this.userMessages = userMessages;
+
+        try
+        {
+            device = Device.Open(id);
+            StartBackgroundThread();
+        }
+        catch (AzureKinectOpenDeviceException)
+        {
+            Debug.LogError("Failed to open Azure Kinect device " + id + ".");
+            userMessages.queueMessage("Failed to open Azure Kinect device " + id + ".");
+        }
+        catch (Exception)
+        {
+            Debug.LogError("Failed to start background thread.");
+            userMessages.queueMessage("Failed to start background thread.");
+        }
     }
     
     protected override void RunBackgroundThreadAsync(int id, CancellationToken token)
@@ -44,7 +62,7 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
             // Buffer allocations.
             BackgroundData currentFrameData = new BackgroundData();
             // Open device.
-            using (Device device = Device.Open(id))
+            using (device)
             {
                 device.StartCameras(new DeviceConfiguration()
                 {

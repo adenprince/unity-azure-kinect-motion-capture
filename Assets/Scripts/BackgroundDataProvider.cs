@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using UnityEngine;
 
 public abstract class BackgroundDataProvider : IDisposable
 {
@@ -10,6 +11,7 @@ public abstract class BackgroundDataProvider : IDisposable
     public bool IsRunning { get; set; } = false;
     private CancellationTokenSource _cancellationTokenSource;
     private CancellationToken _token;
+    private int _id;
     private Task _backgroundThread;
 
     public BackgroundDataProvider(int id)
@@ -19,7 +21,12 @@ public abstract class BackgroundDataProvider : IDisposable
 #endif
         _cancellationTokenSource = new CancellationTokenSource();
         _token = _cancellationTokenSource.Token;
-        _backgroundThread = Task.Run(() => RunBackgroundThreadAsync(id, _token));
+        _id = id;
+    }
+
+    public void StartBackgroundThread()
+    {
+        _backgroundThread = Task.Run(() => RunBackgroundThreadAsync(_id, _token));
     }
 
     private void OnEditorClose()

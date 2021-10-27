@@ -6,27 +6,47 @@ public class main : MonoBehaviour
     // Handler for SkeletalTracking thread.
     public GameObject m_tracker;
     private SkeletalTrackingProvider m_skeletalTrackingProvider;
+    private SkeletalTrackingProvider m_skeletalTrackingProvider2;
     public BackgroundData m_lastFrameData = new BackgroundData();
+    public BackgroundData m_lastFrameData2 = new BackgroundData();
 
     public ColorCameraView colorCameraView;
+    public ColorCameraView colorCameraView2;
 
     public FPS frameRate = FPS.FPS30;
     public DepthMode depthMode = DepthMode.NFOV_Unbinned;
     public WiredSyncMode wiredSyncMode = WiredSyncMode.Standalone;
 
     public UserMessages userMessages;
-    
+
+    bool twoSensors = false;
+
     void Start()
     {
         //tracker ids needed for when there are two trackers
         const int TRACKER_ID = 0;
         m_skeletalTrackingProvider = new SkeletalTrackingProvider(TRACKER_ID, colorCameraView, frameRate,
             depthMode, wiredSyncMode, userMessages);
+
+        if (twoSensors)
+        {
+            const int TRACKER_ID_2 = 1;
+            m_skeletalTrackingProvider2 = new SkeletalTrackingProvider(TRACKER_ID_2, colorCameraView2, frameRate,
+                depthMode, wiredSyncMode, userMessages);
+        }
     }
 
     void Update()
     {
-        if (m_skeletalTrackingProvider.IsRunning)
+        if (twoSensors)
+        {
+            if (m_skeletalTrackingProvider.IsRunning && m_skeletalTrackingProvider2.IsRunning &&
+                m_skeletalTrackingProvider.GetCurrentFrameData(ref m_lastFrameData) && m_skeletalTrackingProvider2.GetCurrentFrameData(ref m_lastFrameData2))
+            {
+                m_tracker.GetComponent<TrackerHandler>().updateTrackerTwoSensors(m_lastFrameData, m_lastFrameData2);
+            }
+        }
+        else
         {
             if (m_skeletalTrackingProvider.GetCurrentFrameData(ref m_lastFrameData))
             {
@@ -40,6 +60,11 @@ public class main : MonoBehaviour
         if (m_skeletalTrackingProvider != null)
         {
             m_skeletalTrackingProvider.Dispose();
+        }
+
+        if (m_skeletalTrackingProvider2 != null)
+        {
+            m_skeletalTrackingProvider2.Dispose();
         }
     }
 
@@ -57,5 +82,10 @@ public class main : MonoBehaviour
     public void SetWiredSyncMode(int wiredSyncMode)
     {
         this.wiredSyncMode = (WiredSyncMode)wiredSyncMode;
+    }
+
+    public void SetTwoSensors(bool twoSensors)
+    {
+        this.twoSensors = twoSensors;
     }
 }

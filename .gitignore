@@ -12,3 +12,5 @@ Assets/Plugins
 *.dll
 *.onnx
 !Assets/Materials/*.png
+Assets/Calibrations
+Assets/Calibrations.meta
