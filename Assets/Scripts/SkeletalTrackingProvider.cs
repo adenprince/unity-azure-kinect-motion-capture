@@ -21,18 +21,16 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
 
     FPS frameRate;
     DepthMode depthMode;
-    WiredSyncMode wiredSyncMode;
 
     UserMessages userMessages;
 
     public SkeletalTrackingProvider(int id, ColorCameraView colorCameraView, FPS frameRate, DepthMode depthMode,
-        WiredSyncMode wiredSyncMode, UserMessages userMessages) : base(id)
+        UserMessages userMessages) : base(id)
     {
         this.colorCameraView = colorCameraView;
 
         this.frameRate = frameRate;
         this.depthMode = depthMode;
-        this.wiredSyncMode = wiredSyncMode;
 
         this.userMessages = userMessages;
 
@@ -69,7 +67,7 @@ public class SkeletalTrackingProvider : BackgroundDataProvider
                     CameraFPS = frameRate,
                     ColorResolution = ColorResolution.R720p,
                     DepthMode = depthMode,
-                    WiredSyncMode = wiredSyncMode,
+                    WiredSyncMode = WiredSyncMode.Standalone,
                     ColorFormat = ImageFormat.ColorBGRA32,
                 });
 

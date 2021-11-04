@@ -15,7 +15,6 @@ public class main : MonoBehaviour
 
     public FPS frameRate = FPS.FPS30;
     public DepthMode depthMode = DepthMode.NFOV_Unbinned;
-    public WiredSyncMode wiredSyncMode = WiredSyncMode.Standalone;
 
     public UserMessages userMessages;
 
@@ -26,13 +25,13 @@ public class main : MonoBehaviour
         //tracker ids needed for when there are two trackers
         const int TRACKER_ID = 0;
         m_skeletalTrackingProvider = new SkeletalTrackingProvider(TRACKER_ID, colorCameraView, frameRate,
-            depthMode, wiredSyncMode, userMessages);
+            depthMode, userMessages);
 
         if (twoSensors)
         {
             const int TRACKER_ID_2 = 1;
             m_skeletalTrackingProvider2 = new SkeletalTrackingProvider(TRACKER_ID_2, colorCameraView2, frameRate,
-                depthMode, wiredSyncMode, userMessages);
+                depthMode, userMessages);
         }
     }
 
@@ -77,11 +76,6 @@ public class main : MonoBehaviour
     {
         // Add 1 because DepthMode 0 is no depth capture
         this.depthMode = (DepthMode)depthMode + 1;
-    }
-
-    public void SetWiredSyncMode(int wiredSyncMode)
-    {
-        this.wiredSyncMode = (WiredSyncMode)wiredSyncMode;
     }
 
     public void SetTwoSensors(bool twoSensors)
