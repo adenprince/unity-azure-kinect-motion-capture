@@ -16,6 +16,7 @@ public class TrackerHandler : MonoBehaviour
     int frameNumber = 0;
 
     bool twoSensors = false;
+    bool debugMode = true;
 
     SensorCalibration sensorCalibration;
 
@@ -153,29 +154,55 @@ public class TrackerHandler : MonoBehaviour
     {
         ++frameNumber;
 
+        bool newMasterBody = trackerFrameData1.NumOfBodies == 1;
+        bool newSubordinateBody = trackerFrameData2.NumOfBodies == 1;
+
         Body masterBody = trackerFrameData1.Bodies[0];
         Body subordinateBody = trackerFrameData2.Bodies[0];
 
-        if (trackerFrameData1.NumOfBodies == 1)
+        Body mergedBody = masterBody;
+
+        if (newMasterBody && debugMode)
         {
             renderSkeleton(masterBody, 0);
         }
 
-        if (trackerFrameData2.NumOfBodies == 1)
+        if (newSubordinateBody && debugMode)
         {
             renderSkeleton(subordinateBody, 1);
         }
 
-        if (trackerFrameData1.NumOfBodies == 1 && trackerFrameData2.NumOfBodies == 1)
+        Body transformedBody = subordinateBody;
+        if (newSubordinateBody)
         {
-            renderSkeleton(mergeBodies(masterBody, subordinateBody), 3);
+            transformedBody = transformSubordinateBody(subordinateBody);
+
+            if (debugMode)
+            {
+                renderSkeleton(transformedBody, 2);
+            }
+        }
+
+        if (newMasterBody && newSubordinateBody)
+        {
+            mergedBody = mergeBodies(masterBody, transformedBody);
+        }
+        else if (newSubordinateBody)
+        {
+            mergedBody = transformedBody;
+        }
+
+        if (newMasterBody || newSubordinateBody)
+        {
+            renderSkeleton(mergedBody, 3);
+
+            GetComponent<DataRecorder>().collectData(mergedBody, 3, frameNumber);
         }
     }
 
-    public Body mergeBodies(Body masterBody, Body subordinateBody)
+    public Body transformSubordinateBody(Body subordinateBody)
     {
-        Body transformedBody = subordinateBody;
-        Body mergedSkeleton = new Body((int)JointId.Count);
+        Body transformedBody = subordinateBody; // subordinateBody joint positions are modified
 
         for (int i = 0; i < (int)JointId.Count; ++i)
         {
@@ -186,14 +213,20 @@ public class TrackerHandler : MonoBehaviour
             transformedBody.JointPositions3D[i] = System.Numerics.Vector3.Transform(transformedBody.JointPositions3D[i], sensorCalibration.masterRotationNumerics);
 
             transformedBody.JointPositions3D[i] += sensorCalibration.masterTranslationVectorNumerics;
+        }
 
+        return transformedBody;
+    }
+
+    public Body mergeBodies(Body masterBody, Body transformedBody)
+    {
+        Body mergedSkeleton = new Body((int)JointId.Count);
+
+        for (int i = 0; i < (int)JointId.Count; ++i)
+        {
             mergedSkeleton.JointPositions3D[i] = weightedAverage(transformedBody.JointPositions3D[i], (float)transformedBody.JointPrecisions[i],
                                                                  masterBody.JointPositions3D[i], (float)masterBody.JointPrecisions[i]);
         }
-
-        renderSkeleton(transformedBody, 2);
-
-        GetComponent<DataRecorder>().collectData(mergedSkeleton, 0, frameNumber);
 
         return mergedSkeleton;
     }
