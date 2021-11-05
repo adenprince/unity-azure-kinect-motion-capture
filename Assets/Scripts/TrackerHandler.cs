@@ -193,6 +193,8 @@ public class TrackerHandler : MonoBehaviour
 
         renderSkeleton(transformedBody, 2);
 
+        GetComponent<DataRecorder>().collectData(mergedSkeleton, 0, frameNumber);
+
         return mergedSkeleton;
     }
 
