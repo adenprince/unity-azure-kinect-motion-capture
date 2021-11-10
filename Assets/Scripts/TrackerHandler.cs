@@ -257,6 +257,11 @@ public class TrackerHandler : MonoBehaviour
 
     System.Numerics.Vector3 weightedAverage(System.Numerics.Vector3 val1, float weight1, System.Numerics.Vector3 val2, float weight2)
     {
+        if (weight1 == 0f && weight2 == 0f)
+        {
+            return (val1 + val2) / 2f;
+        }
+
         return (weight1 * val1 + weight2 * val2) / (weight1 + weight2);
     }
 
