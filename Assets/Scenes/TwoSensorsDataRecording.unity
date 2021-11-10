@@ -130,7 +130,7 @@ PrefabInstance:
     - target: {fileID: 366066478777253392, guid: 712be3504de496648935cc686455db63,
         type: 3}
       propertyPath: m_Name
-      value: Green pointBody
+      value: Merged Body
       objectReference: {fileID: 0}
     - target: {fileID: 8852436806562665317, guid: 712be3504de496648935cc686455db63,
         type: 3}
@@ -452,7 +452,6 @@ MonoBehaviour:
   colorCameraView2: {fileID: 1732072829}
   frameRate: 2
   depthMode: 2
-  wiredSyncMode: 0
   userMessages: {fileID: 1936346301}
 --- !u!114 &522368196
 MonoBehaviour:
@@ -668,7 +667,7 @@ PrefabInstance:
     - target: {fileID: 9005141387628899988, guid: 363dbdc7d871a084d982f0b18075b63e,
         type: 3}
       propertyPath: m_Name
-      value: Blue pointBody
+      value: Transformed Subordinate Body
       objectReference: {fileID: 0}
     - target: {fileID: 231402921730311137, guid: 363dbdc7d871a084d982f0b18075b63e,
         type: 3}
@@ -1268,7 +1267,7 @@ PrefabInstance:
     - target: {fileID: 2734464958313375124, guid: e5593226bedf72d469900380eb447259,
         type: 3}
       propertyPath: m_Name
-      value: pointBody
+      value: Master Body
       objectReference: {fileID: 0}
     - target: {fileID: 6502193724464122081, guid: e5593226bedf72d469900380eb447259,
         type: 3}
@@ -1368,7 +1367,7 @@ GameObject:
   - component: {fileID: 1704552184}
   - component: {fileID: 1704552183}
   m_Layer: 0
-  m_Name: Color Camera View
+  m_Name: Master Color Camera View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1413,7 +1412,7 @@ GameObject:
   - component: {fileID: 1732072830}
   - component: {fileID: 1732072829}
   m_Layer: 0
-  m_Name: Color Camera View (1)
+  m_Name: Subordinate Color Camera View
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1457,7 +1456,7 @@ PrefabInstance:
     - target: {fileID: 2734464958313375124, guid: e5593226bedf72d469900380eb447259,
         type: 3}
       propertyPath: m_Name
-      value: pointBody (1)
+      value: Subordinate Body
       objectReference: {fileID: 0}
     - target: {fileID: 6502193724464122081, guid: e5593226bedf72d469900380eb447259,
         type: 3}

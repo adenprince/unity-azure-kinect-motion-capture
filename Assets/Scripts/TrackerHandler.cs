@@ -164,23 +164,41 @@ public class TrackerHandler : MonoBehaviour
 
         if (newMasterBody && debugMode)
         {
+            // Enable master body child if a new master body is available
+            transform.GetChild(0).gameObject.SetActive(true);
             renderSkeleton(masterBody, 0);
+        }
+        else
+        {
+            transform.GetChild(0).gameObject.SetActive(false);
         }
 
         if (newSubordinateBody && debugMode)
         {
+            // Enable subordinate body child if a new subordinate body is available
+            transform.GetChild(1).gameObject.SetActive(true);
             renderSkeleton(subordinateBody, 1);
+        }
+        else
+        {
+            transform.GetChild(1).gameObject.SetActive(false);
         }
 
         Body transformedBody = subordinateBody;
         if (newSubordinateBody)
         {
+            // Set transformed body if subordinate body is available
             transformedBody = transformSubordinateBody(subordinateBody);
 
             if (debugMode)
             {
+                transform.GetChild(2).gameObject.SetActive(true);
                 renderSkeleton(transformedBody, 2);
             }
+        }
+        else
+        {
+            transform.GetChild(2).gameObject.SetActive(false);
         }
 
         if (newMasterBody && newSubordinateBody)
@@ -189,14 +207,20 @@ public class TrackerHandler : MonoBehaviour
         }
         else if (newSubordinateBody)
         {
+            // Transformed subordinate body is used when only subordinate body is available
             mergedBody = transformedBody;
         }
 
         if (newMasterBody || newSubordinateBody)
         {
+            transform.GetChild(3).gameObject.SetActive(true);
             renderSkeleton(mergedBody, 3);
 
             GetComponent<DataRecorder>().collectData(mergedBody, 3, frameNumber);
+        }
+        else
+        {
+            transform.GetChild(3).gameObject.SetActive(false);
         }
     }
 
