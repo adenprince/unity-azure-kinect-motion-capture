@@ -16,8 +16,9 @@ public class TrackerHandler : MonoBehaviour
     int frameNumber = 0;
 
     bool twoSensors = false;
-    bool debugMode = true;
+    bool showUnmergedBodies = false;
 
+    string calibrationFileName = "sensorCalibration.json";
     SensorCalibration sensorCalibration;
 
     // TODO: Potentially change back to Awake after two sensors UI option is added
@@ -112,7 +113,7 @@ public class TrackerHandler : MonoBehaviour
 
         if (twoSensors)
         {
-            sensorCalibration = SensorCalibration.CreateFromJSONFile("sensorCalibration.json");
+            sensorCalibration = SensorCalibration.CreateFromJSONFile(calibrationFileName);
         }
     }
 
@@ -162,7 +163,7 @@ public class TrackerHandler : MonoBehaviour
 
         Body mergedBody = masterBody;
 
-        if (newMasterBody && debugMode)
+        if (newMasterBody && showUnmergedBodies)
         {
             // Enable master body child if a new master body is available
             transform.GetChild(0).gameObject.SetActive(true);
@@ -173,7 +174,7 @@ public class TrackerHandler : MonoBehaviour
             transform.GetChild(0).gameObject.SetActive(false);
         }
 
-        if (newSubordinateBody && debugMode)
+        if (newSubordinateBody && showUnmergedBodies)
         {
             // Enable subordinate body child if a new subordinate body is available
             transform.GetChild(1).gameObject.SetActive(true);
@@ -190,7 +191,7 @@ public class TrackerHandler : MonoBehaviour
             // Set transformed body if subordinate body is available
             transformedBody = transformSubordinateBody(subordinateBody);
 
-            if (debugMode)
+            if (showUnmergedBodies)
             {
                 transform.GetChild(2).gameObject.SetActive(true);
                 renderSkeleton(transformedBody, 2);
@@ -365,5 +366,15 @@ public class TrackerHandler : MonoBehaviour
     public void SetTwoSensors(bool twoSensors)
     {
         this.twoSensors = twoSensors;
+    }
+
+    public void SetShowUnmergedBodies(bool showUnmergedBodies)
+    {
+        this.showUnmergedBodies = showUnmergedBodies;
+    }
+
+    public void SetCalibrationFileName(string calibrationFileName)
+    {
+        this.calibrationFileName = calibrationFileName;
     }
 }

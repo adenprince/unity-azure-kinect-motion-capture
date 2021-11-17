@@ -9,8 +9,5 @@ public class TwoSensorsRecorderSetup : MonoBehaviour
     {
         main.GetComponent<main>().SetTwoSensors(true);
         tracker.GetComponent<TrackerHandler>().SetTwoSensors(true);
-        GetComponent<DataRecorder>().setWriteData(true);
-        GetComponent<DataRecorder>().setFileName("mergedOutput.csv");
-        Time.timeScale = 1f;
     }
 }

@@ -7,6 +7,7 @@ public class StartButton : MonoBehaviour
 {
     public Text errorText;
     public InputField outputFileName;
+    public InputField sensorCalibrationFileName;
     public InputField sensorHeight;
     public Toggle emptyBackgroundToggle;
     public GameObject plane;
@@ -56,6 +57,18 @@ public class StartButton : MonoBehaviour
         else if (writeData && System.IO.File.Exists(Application.dataPath + "/" + outputFileName.text))
         {
             addError("Output file \"" + outputFileName.text + "\" already exists.");
+        }
+
+        if (sensorCalibrationFileName != null)
+        {
+            if (sensorCalibrationFileName.text == "")
+            {
+                addError("Sensor calibration file name cannot be empty.");
+            }
+            else if (!System.IO.File.Exists(Application.dataPath + "/Calibrations/" + sensorCalibrationFileName.text))
+            {
+                addError("Sensor calibration file \"Calibrations/" + sensorCalibrationFileName.text + "\" does not exist.");
+            }
         }
 
         // Try to convert sensor height input to float
