@@ -108,6 +108,8 @@ public class TrackerHandler : MonoBehaviour
 
     public void updateTracker(BackgroundData trackerFrameData)
     {
+        int prevNumBodies = numBodies;
+
         // Make the number of point bodies match the number of detected bodies
         while (numBodies != (int)trackerFrameData.NumOfBodies)
         {
@@ -137,6 +139,11 @@ public class TrackerHandler : MonoBehaviour
             renderSkeleton(skeleton, i);
 
             gameObject.GetComponent<DataRecorder>().collectData(skeleton, i, frameNumber);
+        }
+
+        if (prevNumBodies != 0 && numBodies == 0)
+        {
+            GetComponent<DataRecorder>().WriteLineWithNoBodies(frameNumber);
         }
     }
 

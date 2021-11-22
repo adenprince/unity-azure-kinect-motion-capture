@@ -80,6 +80,14 @@ public class DataRecorder : MonoBehaviour
         setAngleText((int)JointId.KneeRight, rightKneeAngle);
     }
 
+    public void WriteLineWithNoBodies(int frameNumber)
+    {
+        if (writeData)
+        {
+            File.AppendAllText(outputPath, frameNumber + "," + Time.time + ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,\n");
+        }
+    }
+
     public string getFileName()
     {
         return fileName;
