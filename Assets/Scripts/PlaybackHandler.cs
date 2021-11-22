@@ -42,7 +42,7 @@ public class PlaybackHandler : MonoBehaviour
         int numChildren = 0;
 
         // Skip beginning lines without body data
-        while (curLine != null && rowArr[1] == "") {
+        while (curLine != null && rowArr[2] == "") {
             // Get array of strings from next row of data
             curLine = sr.ReadLine();
             if (curLine != null)
@@ -66,16 +66,20 @@ public class PlaybackHandler : MonoBehaviour
             // Render each skeleton on the current frame
             while (curFrame == int.Parse(rowArr[0]) && curLine != null)
             {
-                // Create new point body child if needed
-                if (curChild + 1 > numChildren)
+                // Check if current line has body data
+                if (rowArr[2] != "")
                 {
-                    Instantiate(pointBody, transform);
-                    ++numChildren;
+                    // Create new point body child if needed
+                    if (curChild + 1 > numChildren)
+                    {
+                        Instantiate(pointBody, transform);
+                        ++numChildren;
+                    }
+
+                    RenderSkeleton(rowArr, curChild);
+
+                    ++curChild;
                 }
-
-                RenderSkeleton(rowArr, curChild);
-
-                ++curChild;
 
                 // Get array of strings from next row of data
                 curLine = sr.ReadLine();
@@ -90,16 +94,6 @@ public class PlaybackHandler : MonoBehaviour
             {
                 Destroy(transform.GetChild(numChildren - 1).gameObject);
                 --numChildren;
-            }
-
-            // Skip lines without body data
-            while (curLine != null && rowArr[1] == "") {
-                // Get array of strings from next row of data
-                curLine = sr.ReadLine();
-                if (curLine != null)
-                {
-                    rowArr = curLine.Split(',');
-                }
             }
 
             if (curLine != null)
